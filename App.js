@@ -20,9 +20,9 @@ const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
   return (
-    <HomeStack.Navigator initialRouteName='Home' options={{headerShown:false}}>
+    <HomeStack.Navigator initialRouteName='Home' options={{ headerShown: false }}>
       <HomeStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
-      <HomeStack.Screen name="Home" component={Home} options={{headerShown:false}}/>
+      <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
     </HomeStack.Navigator>
   );
 }
@@ -76,19 +76,19 @@ function App() {
     <NavigationContainer>
 
       <Stack.Navigator initialRouteName="Login">
-        
+
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        
+
         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
         <Stack.Screen name="SignUpInfo" component={SignUpInfo} options={{ headerShown: false }} />
         <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
-       
+
       </Stack.Navigator>
-      
+
 
     </NavigationContainer>
-    </MenuProvider>
+  </MenuProvider>
   );
 }
 

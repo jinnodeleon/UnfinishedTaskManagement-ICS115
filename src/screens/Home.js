@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image , Modal, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight } from 'react-native';
 
 // import FAB from 'react-native-fab'
 
@@ -17,7 +17,7 @@ import {
     MenuOption,
     MenuTrigger,
     renderers
-  } from 'react-native-popup-menu';
+} from 'react-native-popup-menu';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
@@ -59,14 +59,14 @@ const cardInfo = [
 
 
 
- 
+
 
 const Home = ({ navigation }) => {
     // console.log(props);
-    
-   
-      
-    const {Popover} = renderers;
+
+
+
+    const { Popover } = renderers;
 
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
@@ -94,38 +94,38 @@ const Home = ({ navigation }) => {
                                 style={{ width: '95%', height: '76%', }}
                             />
                         </TouchableOpacity>
-                        
+
                         <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
-                        <TouchableOpacity style={{ }}
-                              //  onPress={()=>{}}
-                        >
-                            <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
-  <MenuTrigger>
-  <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
-  </MenuTrigger>
- 
-      <MenuOptions customStyles={test}>
-    <MenuOption value={1} text='Replace Task' 
-     customStyles={{optionText: {color: '#FEC507'}}}
-    />
-    <MenuOption value={2} text='Delete Task' 
-    customStyles={{optionText: {color: '#DC5454'}}}
-    />
-  </MenuOptions>
-</Menu>
-                                
-                                
-                               
+                            <TouchableOpacity style={{}}
+                            //  onPress={()=>{}}
+                            >
+                                <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
+                                    <MenuTrigger>
+                                        <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
+                                    </MenuTrigger>
+
+                                    <MenuOptions customStyles={test}>
+                                        <MenuOption value={1} text='Replace Task'
+                                            customStyles={{ optionText: { color: '#FEC507' } }}
+                                        />
+                                        <MenuOption value={2} text='Delete Task'
+                                            customStyles={{ optionText: { color: '#DC5454' } }}
+                                        />
+                                    </MenuOptions>
+                                </Menu>
+
+
+
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ }}
+                            <TouchableOpacity style={{}}
                                 onPress={() => {
                                     navigation.navigate('Settings');
-            
+
                                 }}
                             >
-                                
+
                                 <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
-                               
+
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -133,7 +133,7 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
                     <Text style={{ fontSize: 30, }}>Due Soon</Text>
                 </View >
-               
+
                 <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                     <Card.Title>HELLO WORLD</Card.Title>
                     <Card.Divider />
@@ -152,7 +152,7 @@ const Home = ({ navigation }) => {
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
                 </Text>
-                
+
 
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
@@ -161,7 +161,7 @@ const Home = ({ navigation }) => {
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
                 </Text>
-                
+
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                         <Card.Title>HELLO WORLD</Card.Title>
@@ -224,18 +224,18 @@ const Home = ({ navigation }) => {
 };
 
 
-  const test = {
-      optionsContainer: {
-          width: 125,
-          height: 80,
-          borderRadius: 30,
-          alignItems: 'center',
-          justifyContent: 'center'
-        
-      },
-     
-  };
-  
+const test = {
+    optionsContainer: {
+        width: 125,
+        height: 80,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+
+};
+
 
 const styles = StyleSheet.create({
     scrollStyle: {
