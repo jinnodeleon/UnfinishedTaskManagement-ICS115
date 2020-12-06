@@ -7,8 +7,7 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
-
-
+import { auth } from '../config/firebase'
 
 const Login2 = ({ navigation }) => {
     // console.log(props);
