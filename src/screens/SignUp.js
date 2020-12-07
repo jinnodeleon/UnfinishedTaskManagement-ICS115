@@ -15,6 +15,7 @@ const SignUp = ({ navigation }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
+    /**
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
@@ -25,7 +26,9 @@ const SignUp = ({ navigation }) => {
             Alert.alert("Email Validation", "Email is Invalid!");
         }
 
-    }
+    }     
+     */
+
     return (
 
         <ScrollView style={styles.scrollStyle}>
@@ -92,10 +95,11 @@ const SignUp = ({ navigation }) => {
                     <Text style={{ flex: 2.25, }}>Already have an account? </Text>
                     <TouchableOpacity
                         style={{ flex: .75, alignItems: 'center' }}
-                        onPress={() => {
+                        /**
+                            onPress={() => {
                             verifyEmail();
-
-                        }}
+                            }}
+                         */
 
                     >
                         <Text style={{ width: '75%', color: '#F89E1B' }} >Login</Text>

@@ -1,16 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, } from 'react-native';
-
-// import FAB from 'react-native-fab'
-
-// import { FloatingAction } from "react-native-floating-action";
-
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-
+import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight, FlatList } from 'react-native';
 import {
     Menu,
     MenuOptions,
@@ -27,54 +17,46 @@ import IIcon from 'react-native-vector-icons/Ionicons';
 import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
-
-const clickHandler = () => {
-    //function to handle click on floating Action Button
-    alert('Floating Button Clicked');
-};
-
-const cardInfo = [
-    {
-        name: 'The Muffin Man Bakery',
-        categories: 'Desserts, Cakes and Bakery',
-        deliveryTime: '35 min',
-        distance: '3.7 km',
-
-    },
-    {
-        name: 'Central Perk Coffee House',
-        categories: 'Beverages, Desserts, Cakes and Bakery',
-        deliveryTime: '45 min',
-        distance: '4.3 km',
-
-    },
-    {
-        name: 'WildBread Bakery',
-        categories: 'Cakes and Bakery, American, Sandwiches, Burgers',
-        deliveryTime: '25 min',
-        distance: '3 km',
-    },
-
-];
-
+import firebase from '../config/firebase';
 
 const List = ({ navigation }) => {
     // console.log(props);
     const { Popover } = renderers;
-    const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
-    const [email, setEmail] = useState('');
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const verifyEmail = () => {
-        if (regex.test({ email }.email)) {
-            Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
+    const uid = firebase.auth().currentUser;
+    const userID = uid.uid;
 
-        } else {
-            Alert.alert("Email Validation", "Email is Invalid!");
-        }
+    const [modalVisible, setModalVisible] = useState(false);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [date, setDate] = useState('');
 
+    const addTask = (uid, title, description) => {
+        const fb = firebase.firestore();
+        fb.collection('tasks').add({
+            uid: userID,
+            title: title,
+            description: description,
+            date: 'sample',
+        })
+        setModalVisible(!modalVisible);
     }
+
+    const displayTask = () => {
+        const fb = firebase.firestore();
+        fb.collection('tasks').where("uid", "==", userID)
+            .get()
+            .then(function (query) {
+                query.forEach(function (doc) {
+                    console.log(doc.data().title);
+                });
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+            })
+    }
+
+    displayTask();
+
     return (
         <View>
             <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
@@ -106,76 +88,32 @@ const List = ({ navigation }) => {
                                         />
                                     </MenuOptions>
                                 </Menu>
-
-
-
                             </TouchableOpacity>
                             <TouchableOpacity style={{}}
 
                             >
-
                                 <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
-
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
+
                 <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
                     <Text style={{ fontSize: 30, }}>All Tasks</Text>
                     <Text style={{ color: 'gray', alignSelf: 'center', fontSize: 28 }}> (n)</Text>
-                </View >
+                </View>
 
                 <View style={{ marginBottom: 50 }}>
                     <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
+                        <Card.Title>hi</Card.Title>
                         <Card.Divider />
                         <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-
+                            hello
+                        </Text>
                     </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-
-
                 </View>
+            </ScrollView>
 
-
-
-
-
-            </ScrollView >
             <View style={{}}>
                 <TouchableOpacity
                     style={{
@@ -191,14 +129,50 @@ const List = ({ navigation }) => {
                         elevation: 5
                     }}
                     onPress={() => {
-                        console.log("List", "FAIcon press")
-
+                        setModalVisible(true);
                     }}
                 >
                     <FAIcon name="plus" size={45} color="white" />
                 </TouchableOpacity>
 
             </View>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Task Name</Text>
+                        <TextInput
+                            onChangeText={(text) => {
+                                setTitle(text)
+                            }}
+                        />
+                        <Text style={styles.modalText}>Task Description</Text>
+                        <TextInput
+                            onChangeText={
+                                (text) => {
+                                    setDescription(text)
+                                }
+                            }
+                        />
+                        <Text style={styles.modalText}>Due Date</Text>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                            onPress={() => {
+                                addTask(userID, title, description)
+                            }}
+                        >
+                            <Text style={styles.textStyle}>Save</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
@@ -361,7 +335,45 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         elevation: 4,
         marginBottom: 15
+    },
+
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 100,
+        backgroundColor: "white",
+        borderRadius: 30,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    openButton: {
+        backgroundColor: "#F194FF",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
     }
+
 });
 
 
