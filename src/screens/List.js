@@ -1,25 +1,66 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import FAB from 'react-native-fab'
+
+// import { FloatingAction } from "react-native-floating-action";
+
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+    renderers
+} from 'react-native-popup-menu';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import FIcon from 'react-native-vector-icons/Feather';
+import EIcon from 'react-native-vector-icons/EvilIcons';
+import IIcon from 'react-native-vector-icons/Ionicons';
 import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
+const clickHandler = () => {
+    //function to handle click on floating Action Button
+    alert('Floating Button Clicked');
+};
 
+const cardInfo = [
+    {
+        name: 'The Muffin Man Bakery',
+        categories: 'Desserts, Cakes and Bakery',
+        deliveryTime: '35 min',
+        distance: '3.7 km',
 
+    },
+    {
+        name: 'Central Perk Coffee House',
+        categories: 'Beverages, Desserts, Cakes and Bakery',
+        deliveryTime: '45 min',
+        distance: '4.3 km',
+
+    },
+    {
+        name: 'WildBread Bakery',
+        categories: 'Cakes and Bakery, American, Sandwiches, Burgers',
+        deliveryTime: '25 min',
+        distance: '3 km',
+    },
+
+];
 
 
 const List = ({ navigation }) => {
     // console.log(props);
+    const { Popover } = renderers;
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
@@ -35,73 +76,171 @@ const List = ({ navigation }) => {
 
     }
     return (
+        <View>
+            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
+                <View style={{ elevation: 5 }}>
+                    <View style={{ height: 30, backgroundColor: 'white' }}></View>
+                    <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around' }}>
+                        <TouchableOpacity style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end', }}>
+                            <Image
+                                source={require('../../assets/Logo.png')}
+                                style={{ width: '95%', height: '76%', }}
+                            />
+                        </TouchableOpacity>
 
-        <ScrollView stickyHeaderIndices={[5]} invertStickyHeaders style={styles.scrollStyle}>
+                        <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
+                            <TouchableOpacity style={{}}
+                            //  onPress={()=>{}}
+                            >
+                                <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
+                                    <MenuTrigger>
+                                        <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
+                                    </MenuTrigger>
 
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
-                <Text style={{ fontSize: 45, }}>List!</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-
-
-
-
-
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
+                                    <MenuOptions customStyles={test}>
+                                        <MenuOption value={1} text='Replace Task'
+                                            customStyles={{ optionText: { color: '#FEC507' } }}
+                                        />
+                                        <MenuOption value={2} text='Delete Task'
+                                            customStyles={{ optionText: { color: '#DC5454' } }}
+                                        />
+                                    </MenuOptions>
+                                </Menu>
 
 
 
-        </ScrollView >
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{}}
 
+                            >
+
+                                <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
+
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
+                    <Text style={{ fontSize: 30, }}>All Tasks</Text>
+                    <Text style={{ color: 'gray', alignSelf: 'center', fontSize: 28 }}> (n)</Text>
+                </View >
+
+                <View style={{ marginBottom: 50 }}>
+                    <Card containerStyle={styles.listCard}>
+                        <Card.Title>HELLO WORLD</Card.Title>
+                        <Card.Divider />
+                        <Text style={{ marginBottom: 10 }}>
+                            The idea with React Native Elements is more about component structure than actual design.
+                </Text>
+
+
+                    </Card>
+                    <Card containerStyle={styles.listCard}>
+                        <Card.Title>HELLO WORLD</Card.Title>
+                        <Card.Divider />
+                        <Text style={{ marginBottom: 10 }}>
+                            The idea with React Native Elements is more about component structure than actual design.
+                </Text>
+
+                    </Card>
+                    <Card containerStyle={styles.listCard}>
+                        <Card.Title>HELLO WORLD</Card.Title>
+                        <Card.Divider />
+                        <Text style={{ marginBottom: 10 }}>
+                            The idea with React Native Elements is more about component structure than actual design.
+                </Text>
+
+                    </Card>
+                    <Card containerStyle={styles.listCard}>
+                        <Card.Title>HELLO WORLD</Card.Title>
+                        <Card.Divider />
+                        <Text style={{ marginBottom: 10 }}>
+                            The idea with React Native Elements is more about component structure than actual design.
+                </Text>
+
+                    </Card>
+                    <Card containerStyle={styles.listCard}>
+                        <Card.Title>HELLO WORLD</Card.Title>
+                        <Card.Divider />
+                        <Text style={{ marginBottom: 10 }}>
+                            The idea with React Native Elements is more about component structure than actual design.
+                </Text>
+
+                    </Card>
+
+
+                </View>
+
+
+
+
+
+            </ScrollView >
+            <View style={{}}>
+                <TouchableOpacity
+                    style={{
+
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 83,
+                        height: 83,
+                        bottom: 100,
+                        left: '75%',
+                        backgroundColor: '#FBB040',
+                        borderRadius: 100,
+                        elevation: 5
+                    }}
+                    onPress={() => {
+                        navigation.navigate('List');
+
+                    }}
+                >
+                    <FAIcon name="plus" size={45} color="white" />
+                </TouchableOpacity>
+
+            </View>
+        </View>
     );
 };
 
+
+const test = {
+    optionsContainer: {
+        width: 125,
+        height: 80,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+
+};
+
+
 const styles = StyleSheet.create({
     scrollStyle: {
-        borderWidth: 2,
+
         borderColor: 'red',
         backgroundColor: 'white',
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
+        position: 'relative'
+    },
+    TouchableOpacityStyle: {
+        //Here is the trick
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+    },
+    floatingButtonStyle: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
+        //backgroundColor:'black'
     },
     logoView: {
         flex: 2,
@@ -217,6 +356,12 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         alignSelf: 'center'
     },
+
+    listCard: {
+        borderRadius: 30,
+        elevation: 4,
+        marginBottom: 15
+    }
 });
 
 

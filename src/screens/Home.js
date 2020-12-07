@@ -1,19 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight } from 'react-native';
 
-import FAB from 'react-native-fab'
+// import FAB from 'react-native-fab'
 
-import { FloatingAction } from "react-native-floating-action";
+// import { FloatingAction } from "react-native-floating-action";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+    renderers
+} from 'react-native-popup-menu';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import FIcon from 'react-native-vector-icons/Feather';
+import EIcon from 'react-native-vector-icons/EvilIcons';
+import IIcon from 'react-native-vector-icons/Ionicons';
 import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
@@ -48,8 +58,16 @@ const cardInfo = [
 ];
 
 
+
+
+
 const Home = ({ navigation }) => {
     // console.log(props);
+
+
+
+    const { Popover } = renderers;
+
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
@@ -76,17 +94,45 @@ const Home = ({ navigation }) => {
                                 style={{ width: '95%', height: '76%', }}
                             />
                         </TouchableOpacity>
-                        <View style={{ flex: .8, alignItems: 'flex-end', marginRight: '4%', justifyContent: 'center', }}>
-                            <TouchableOpacity style={{ width: 43 }}>
-                                <Icon name="cog" style={{ fontSize: 35 }}></Icon>
+
+                        <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
+                            <TouchableOpacity style={{}}
+                            //  onPress={()=>{}}
+                            >
+                                <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
+                                    <MenuTrigger>
+                                        <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
+                                    </MenuTrigger>
+
+                                    <MenuOptions customStyles={test}>
+                                        <MenuOption value={1} text='Replace Task'
+                                            customStyles={{ optionText: { color: '#FEC507' } }}
+                                        />
+                                        <MenuOption value={2} text='Delete Task'
+                                            customStyles={{ optionText: { color: '#DC5454' } }}
+                                        />
+                                    </MenuOptions>
+                                </Menu>
+
+
+
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{}}
+                                onPress={() => {
+                                    navigation.navigate('Settings');
+
+                                }}
+                            >
+
+                                <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
+
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
                 <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
-                    <Text style={{ fontSize: 45, }}>Due Soon</Text>
+                    <Text style={{ fontSize: 30, }}>Due Soon</Text>
                 </View >
-
 
                 <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                     <Card.Title>HELLO WORLD</Card.Title>
@@ -97,7 +143,7 @@ const Home = ({ navigation }) => {
 
                 </Card>
                 <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', marginTop: 35 }}>
-                    <Text style={{ fontSize: 45, }}>Tasks</Text>
+                    <Text style={{ fontSize: 30, }}>Tasks</Text>
                 </View >
                 <View style={{ marginBottom: 50 }}>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
@@ -106,6 +152,7 @@ const Home = ({ navigation }) => {
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
                 </Text>
+
 
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
@@ -152,16 +199,14 @@ const Home = ({ navigation }) => {
             <View style={{}}>
                 <TouchableOpacity
                     style={{
-                        borderWidth: 1,
-                        borderColor: 'rgba(0,0,0,0.2)',
+
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: 70,
-
-                        height: 70,
-                        bottom: 500,
-                        left: 0,
-                        backgroundColor: '#fff',
+                        width: 83,
+                        height: 83,
+                        bottom: 100,
+                        left: '75%',
+                        backgroundColor: '#FBB040',
                         borderRadius: 100,
                         elevation: 5
                     }}
@@ -170,13 +215,27 @@ const Home = ({ navigation }) => {
 
                     }}
                 >
-                    <Icon name="plus-circle" size={30} color="#01a699" />
+                    <FAIcon name="plus" size={45} color="white" />
                 </TouchableOpacity>
 
             </View>
         </View>
     );
 };
+
+
+const test = {
+    optionsContainer: {
+        width: 125,
+        height: 80,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+
+};
+
 
 const styles = StyleSheet.create({
     scrollStyle: {

@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import { MenuProvider } from 'react-native-popup-menu';
 
 import Login from './src/screens/Login';
 import SignUp from './src/screens/SignUp';
@@ -12,12 +14,24 @@ import Home from './src/screens/Home';
 import List from './src/screens/List';
 import Chat from './src/screens/Chat';
 import Account from './src/screens/Account';
+import Settings from './src/screens/Settings';
 const Tab = createBottomTabNavigator();
 
+const HomeStack = createStackNavigator();
 function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator initialRouteName='Home' options={{ headerShown: false }}>
+      <HomeStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+      <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+    </HomeStack.Navigator>
+  );
+}
+
+function MainStackScreen() {
   return (
 
     <Tab.Navigator
+      initialRouteName='Home'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -46,7 +60,7 @@ function HomeStackScreen() {
     >
 
       <Tab.Screen name="List" component={List} />
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" component={HomeStackScreen} />
 
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="Account" component={Account} />
@@ -58,20 +72,23 @@ function HomeStackScreen() {
 
 export const Stack = createStackNavigator();
 function App() {
-  return (
+  return (<MenuProvider>
     <NavigationContainer>
 
       <Stack.Navigator initialRouteName="Login">
 
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+
         <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
         <Stack.Screen name="SignUpInfo" component={SignUpInfo} options={{ headerShown: false }} />
         <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomeStackScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
+
       </Stack.Navigator>
 
 
     </NavigationContainer>
+  </MenuProvider>
   );
 }
 

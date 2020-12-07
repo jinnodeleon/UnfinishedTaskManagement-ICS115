@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image , Modal, TouchableHighlight} from 'react-native';
 
 // import FAB from 'react-native-fab'
 
@@ -17,7 +17,7 @@ import {
     MenuOption,
     MenuTrigger,
     renderers
-} from 'react-native-popup-menu';
+  } from 'react-native-popup-menu';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
@@ -28,13 +28,46 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
+const clickHandler = () => {
+    //function to handle click on floating Action Button
+    alert('Floating Button Clicked');
+};
+
+const cardInfo = [
+    {
+        name: 'The Muffin Man Bakery',
+        categories: 'Desserts, Cakes and Bakery',
+        deliveryTime: '35 min',
+        distance: '3.7 km',
+
+    },
+    {
+        name: 'Central Perk Coffee House',
+        categories: 'Beverages, Desserts, Cakes and Bakery',
+        deliveryTime: '45 min',
+        distance: '4.3 km',
+
+    },
+    {
+        name: 'WildBread Bakery',
+        categories: 'Cakes and Bakery, American, Sandwiches, Burgers',
+        deliveryTime: '25 min',
+        distance: '3 km',
+    },
+
+];
 
 
 
+ 
 
-const Chat = ({ navigation }) => {
+const Settings = ({ navigation }) => {
     // console.log(props);
-    const { Popover } = renderers;
+    
+   
+      
+    const {Popover} = renderers;
+
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
@@ -61,113 +94,68 @@ const Chat = ({ navigation }) => {
                                 style={{ width: '95%', height: '76%', }}
                             />
                         </TouchableOpacity>
-
+                        
                         <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
-                            <TouchableOpacity style={{}}
-                            //  onPress={()=>{}}
-                            >
-                                <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
-                                    <MenuTrigger>
-                                        <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
-                                    </MenuTrigger>
-
-                                    <MenuOptions customStyles={test}>
-                                        <MenuOption value={1} text='Replace Task'
-                                            customStyles={{ optionText: { color: '#FEC507' } }}
-                                        />
-                                        <MenuOption value={2} text='Delete Task'
-                                            customStyles={{ optionText: { color: '#DC5454' } }}
-                                        />
-                                    </MenuOptions>
-                                </Menu>
-
-
-
+                        <TouchableOpacity style={{ }}
+                              //  onPress={()=>{}}
+                        >
+                            <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
+  <MenuTrigger>
+  <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
+  </MenuTrigger>
+ 
+      <MenuOptions customStyles={test}>
+    <MenuOption value={1} text='Replace Task' 
+     customStyles={{optionText: {color: '#FEC507'}}}
+    />
+    <MenuOption value={2} text='Delete Task' 
+    customStyles={{optionText: {color: '#DC5454'}}}
+    />
+  </MenuOptions>
+</Menu>
+                                
+                                
+                               
                             </TouchableOpacity>
-                            <TouchableOpacity style={{}}
-
+                            <TouchableOpacity style={{ }}
+                                
                             >
-
+                                
                                 <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
-
+                               
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
-                    <Text style={{ fontSize: 30, }}>Discussions</Text>
-                    <Text style={{ color: 'gray', alignSelf: 'center', fontSize: 28 }}> (n)</Text>
+                <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
+                    <Text style={{ fontSize: 30, }}>Settings</Text>
                 </View >
-
-                <View style={{ marginBottom: 50 }}>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-
-
-                </View>
+               
+                
 
 
 
 
 
             </ScrollView >
-
+            
         </View>
     );
 };
 
 
-const test = {
-    optionsContainer: {
-        width: 125,
-        height: 80,
-        borderRadius: 30,
-        alignItems: 'center',
-        justifyContent: 'center'
-
-    },
-
-};
-
+  const test = {
+      optionsContainer: {
+          width: 125,
+          height: 80,
+          borderRadius: 30,
+          alignItems: 'center',
+          justifyContent: 'center'
+        
+      },
+     
+  };
+  
 
 const styles = StyleSheet.create({
     scrollStyle: {
@@ -308,13 +296,7 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         alignSelf: 'center'
     },
-
-    listCard: {
-        borderRadius: 30,
-        elevation: 4,
-        marginBottom: 15
-    }
 });
 
 
-export default Chat;
+export default Settings;
