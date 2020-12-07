@@ -23,7 +23,9 @@ const Account = ({ navigation }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+ /**
+  * 
+  *     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
             Alert.alert("Email Validation", "Email is Valid!");
@@ -34,6 +36,8 @@ const Account = ({ navigation }) => {
         }
 
     }
+  */   
+
     const logoutUser = () => {
         auth().signOut().then(function () {
             navigation.navigate('Login2')

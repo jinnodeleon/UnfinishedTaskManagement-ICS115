@@ -7,7 +7,7 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
-import { auth } from '../config/firebase'
+import firebase from '../config/firebase'
 
 const Login2 = ({ navigation }) => {
   // console.log(props);
@@ -16,6 +16,7 @@ const Login2 = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [pword, setPword] = useState('');
 
+  /*
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const verifyEmail = () => {
     if (regex.test({ email }.email)) {
@@ -27,12 +28,13 @@ const Login2 = ({ navigation }) => {
     }
 
   }
+  */
 
   const loginUser = (email, pass) => {
-    verifyEmail()
-    auth().signInWithEmailAndPassword(email.trim(), pass)
+    //verifyEmail()
+    firebase.auth().signInWithEmailAndPassword(email.trim(), pass)
       .then(() => {
-        var user = auth().currentUser;
+        var user = firebase.auth().currentUser;
         if (user != null) {
           curUser = {
             name: user.displayName,

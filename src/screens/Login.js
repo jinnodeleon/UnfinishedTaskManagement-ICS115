@@ -22,6 +22,7 @@ const Login = ({ navigation, props }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
+    /**
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
@@ -32,7 +33,9 @@ const Login = ({ navigation, props }) => {
             Alert.alert("Email Validation", "Email is Invalid!");
         }
 
-    }
+    }     
+     */
+
 
     return (
 
