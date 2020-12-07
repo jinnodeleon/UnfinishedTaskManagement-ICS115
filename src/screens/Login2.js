@@ -14,17 +14,42 @@ const Login2 = ({ navigation }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
+    const [pword, setPword] = useState('');
+
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
             Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
+            // navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
 
         } else {
             Alert.alert("Email Validation", "Email is Invalid!");
         }
 
     }
+
+    const loginUser = (email, pass) => {
+        verifyEmail()
+        auth().signInWithEmailAndPassword(email.trim(), pass)
+            .then(() => {
+                var user = auth().currentUser;
+                if (user != null) {
+                    curUser = {
+                        name: user.displayName,
+                        email: user.email,
+                        photoUrl: user.photoURL,
+                        emailVerified: user.emailVerified,
+                        uid: user.uid,
+                    }
+                    console.log(curUser)
+                    navigation.navigate('Home')
+                }
+            })
+            .catch((err) => {
+                Alert.alert("Error", err)
+            })
+    }
+
     return (
 
         <ScrollView style={styles.scrollStyle}>
@@ -61,19 +86,18 @@ const Login2 = ({ navigation }) => {
             */}
             < View style={styles.emailInputBox} >
                 <Text style={{ color: "gray" }}>Email</Text>
-                <TextInput placeholder="Email" textContentType='emailAddress' style={styles.emailBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="Email" textContentType='emailAddress' style={styles.emailBox} onChangeText={setEmail} />
             </View >
             <View style={styles.passwordInputBox}>
                 <Text style={{ color: "gray" }}>Password</Text>
-                <TextInput placeholder="Password" secureTextEntry={true} style={styles.passwordBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="Password" secureTextEntry={true} style={styles.passwordBox} onChangeText={setPword} />
             </View>
 
             <View style={styles.buttonBox} >
                 <LinearGradient colors={['#F7971E', '#FFD200']} start={[0, 1]} end={[1, 0]}>
                     <TouchableOpacity
                         onPress={() => {
-                            navigation.navigate('Home')
-
+                            loginUser(email, pword)
                         }}
                         style={styles.buttonStyle}
                     >

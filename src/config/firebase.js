@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import "@firebase/auth";
 import "@firebase/firestore";
 //others that we are not gonna use
@@ -8,12 +8,13 @@ import "@firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDKMyHYbv6GIoZX9ua7B5OI3rIA8snLyVQ",
-  authDomain: "mantadrie-8dd7d.firebaseapp.com",
-  projectId: "mantadrie-8dd7d",
-  storageBucket: "mantadrie-8dd7d.appspot.com",
-  messagingSenderId: "858538424755",
-  appId: "1:858538424755:web:81c1e39d87dd165f4eb3c6",
+  apiKey: "AIzaSyA_6Db7mUzwihx59Nwolqs7Mx-HcGWhWns",
+  authDomain: "mantadrie.firebaseapp.com",
+  databaseURL: "https://mantadrie.firebaseio.com",
+  projectId: "mantadrie",
+  storageBucket: "mantadrie.appspot.com",
+  messagingSenderId: "1052629538156",
+  appId: "1:1052629538156:web:4963833de5a8504e630f49"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
