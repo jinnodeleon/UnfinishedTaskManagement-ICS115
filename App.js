@@ -15,6 +15,11 @@ import List from './src/screens/List';
 import Chat from './src/screens/Chat';
 import Account from './src/screens/Account';
 import Settings from './src/screens/Settings';
+
+import { Provider } from 'react-redux';
+
+import store from './src/reducers/store'
+
 const Tab = createBottomTabNavigator();
 
 const HomeStack = createStackNavigator();
@@ -72,23 +77,20 @@ function MainStackScreen() {
 
 export const Stack = createStackNavigator();
 function App() {
-  return (<MenuProvider>
-    <NavigationContainer>
-
-      <Stack.Navigator initialRouteName="Login">
-
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-
-        <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-        <Stack.Screen name="SignUpInfo" component={SignUpInfo} options={{ headerShown: false }} />
-        <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
-
-      </Stack.Navigator>
-
-
-    </NavigationContainer>
-  </MenuProvider>
+  return (
+    <Provider store={store}>
+      <MenuProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUpInfo" component={SignUpInfo} options={{ headerShown: false }} />
+            <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </MenuProvider>
+    </Provider>
   );
 }
 

@@ -191,7 +191,7 @@ const List = ({ navigation }) => {
                         elevation: 5
                     }}
                     onPress={() => {
-                        navigation.navigate('List');
+                        console.log("List", "FAIcon press")
 
                     }}
                 >

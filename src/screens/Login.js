@@ -64,20 +64,15 @@ const Login = ({ navigation, props }) => {
             </View>
 
             <View style={styles.buttonBox2} >
-
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('SignUp')
-
                     }}
                     style={styles.buttonStyle2}
                 >
-
                     <Text style={styles.buttonText2}>
                         SIGN UP
-                        </Text>
-
-
+                    </Text>
                 </TouchableOpacity>
             </View>
 
