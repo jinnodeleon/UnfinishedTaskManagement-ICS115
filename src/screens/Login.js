@@ -55,7 +55,6 @@ const Login = ({ navigation, props }) => {
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('Login2')
-
                         }}
                         style={styles.buttonStyle}
                     >
