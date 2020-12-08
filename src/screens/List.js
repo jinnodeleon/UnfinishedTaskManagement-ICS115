@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight, FlatList} from 'react-native';
 import {
     Menu,
@@ -29,6 +29,7 @@ const List = ({ navigation }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
+    const [task, setTask] = useState([]);
 
     const addTask = (uid, title, description) => {
         const fb = firebase.firestore();
@@ -41,21 +42,56 @@ const List = ({ navigation }) => {
         setModalVisible(!modalVisible);
     }
 
-    const displayTask = () => {
-        const fb = firebase.firestore();
-        fb.collection('tasks').where("uid", "==", userID)
-            .get()
-            .then(function(query) {
-                query.forEach(function(doc) {
-                    console.log(doc.data().title);
-                });
-            })
-            .catch(function(error) {
-                console.log("Error getting documents: ", error);
-            })
+    useEffect(() => {
+        const displayTask = () => {
+            const fb = firebase.firestore();
+            fb.collection('tasks').where("uid", "==", userID)
+                .get()
+                .then(function(query) {
+                    query.forEach(function(doc) {
+                        setTask({
+                            task: doc.data().description,
+                            title: doc.data().title,
+                            due: 'sample'
+                        })
+                    });
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                })
+        }
+        displayTask();
+    }, [])
+
+    //console.log(task, 'test');
+
+    /*
+    const renderItem = () => {
+        console.log(item, 'item')
+        return(
+            <Card containerStyle={styles.listCard}>
+                <Card.Title>{item.title}</Card.Title>
+                    <Card.Divider />
+                    <Text style={{ marginBottom: 10 }}>
+                    {item.task}
+                    </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                    {item.due}
+                    </Text>
+            </Card> 
+        )
+    }     
+                    <FlatList
+                    data={task}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                />
+    */
+
+    const renderItem = ({item}) => {
+        console.log(item.task, item.due, item.title)
     }
 
-    displayTask();
 
     return (
         <View>
@@ -104,13 +140,11 @@ const List = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginBottom: 50 }}>
-                <Card containerStyle={styles.listCard}>
-                        <Card.Title>hi</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            hello
-                        </Text>
-                        </Card>
+                <FlatList
+                    data={task}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                />      
                 </View>
             </ScrollView>
 
