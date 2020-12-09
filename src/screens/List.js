@@ -21,7 +21,7 @@ import firebase from '../config/firebase';
 import {createTask} from '../reducers/actions';
 import {connect} from 'react-redux';
 
-const List = ({ navigation, createTask, tasks }) => {
+const List = ({ navigation, createTask}) => {
     // console.log(props);
     const { Popover } = renderers;
     const uid = firebase.auth().currentUser;
@@ -31,38 +31,34 @@ const List = ({ navigation, createTask, tasks }) => {
     const [title, setTitle] = useState('');
     const [task, setTask] = useState('');
     const [due, setDue] = useState('sample');
-    /**
-       useEffect(() => {
+    const [display, setDisplay] = useState([]);
+
+    useEffect(() => {
+        const list = []
         const displayTask = () => {
             const fb = firebase.firestore();
-            if(
-            fb.collection('tasks').where("uid", "==", userID)
-            ){
                 fb.collection('tasks').where("uid", "==", userID)
                 .get()
                 .then(function (query) {
-                    query.forEach(function (doc) {
-                        setTask([
-                            { description: doc.data().description,
-                             title: doc.data().title,
-                             date: doc.data().date }
-                            ])
-                    });
+                    query.forEach((doc) => 
+                        //console.log(doc.data().description, 'useeffect')
+                        list.push({ 
+                            task: doc.data().task,
+                            title: doc.data().title,
+                            due: doc.data().due,
+                            createdAt: doc.data().createdAt
+                            })
+                    );
+                    setDisplay([...list])
                 })
                 .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 })
-                displayTask();
-            }else{
-                isSet(
-                    false
-                )
             }
+            displayTask();
+    }, [])
 
-        }      
-    })
-     */
-    const TaskList = ({tasks}) => {
+    const TaskList = (tasks) => {
         console.log(tasks, 'test')
         return(        
         <FlatList
@@ -132,7 +128,7 @@ const List = ({ navigation, createTask, tasks }) => {
                 </View>
 
                 <View style={{ marginBottom: 50 }}>
-                    <TaskList tasks={tasks} />
+                    <TaskList tasks={display} />
                 </View>
             </ScrollView>
 
@@ -185,7 +181,7 @@ const List = ({ navigation, createTask, tasks }) => {
                         <Text style={styles.modalText}>Due Date</Text>
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                            onPress={() => 
+                            onPress={() => {
                                 createTask(
                                     {
                                         title: title,
@@ -194,6 +190,10 @@ const List = ({ navigation, createTask, tasks }) => {
                                         uid: userID
                                     }
                                 )
+                                
+                                setModalVisible(false)
+                            }
+
                             }
                         >
                             <Text style={styles.textStyle}>Add Task</Text>
@@ -404,17 +404,10 @@ const styles = StyleSheet.create({
 
 });
 
-mapStateToProps = (state) => {
-    return {
-        tasks: state.firestore.ordered.tasks
-    }
-        
-}
-
 const mapDispatchToProps = (dispatch) => {
     return {
         createTask: (task) => dispatch(createTask(task))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(null, mapDispatchToProps)(List);
