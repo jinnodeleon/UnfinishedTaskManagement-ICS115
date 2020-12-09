@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight, FlatList } from 'react-native';
 import {
     Menu,
@@ -29,6 +29,40 @@ const List = ({ navigation }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
+    const [task, setTask] = useState([]);
+
+    const cardInfo = [
+        {
+            id: "1",
+            date: 'sample',
+            description: 'Test desc',
+            title: 'Test title',
+        },
+        {
+            id: "2",
+            date: 'sample',
+            description: 'Test desc',
+            title: 'Test title',
+        },
+        {
+            id: "3",
+            date: 'sample',
+            description: 'Test desc',
+            title: 'Test title',
+        },
+        {
+            id: "4",
+            date: 'sample',
+            description: 'Test desc',
+            title: 'Test title',
+        },
+        {
+            id: "5",
+            date: 'sample',
+            description: 'Test desc',
+            title: 'Test title',
+        },
+    ];
 
     const addTask = (uid, title, description) => {
         const fb = firebase.firestore();
@@ -41,21 +75,59 @@ const List = ({ navigation }) => {
         setModalVisible(!modalVisible);
     }
 
-    const displayTask = () => {
-        const fb = firebase.firestore();
-        fb.collection('tasks').where("uid", "==", userID)
-            .get()
-            .then(function (query) {
-                query.forEach(function (doc) {
-                    console.log(doc.data().title);
-                });
-            })
-            .catch(function (error) {
-                console.log("Error getting documents: ", error);
-            })
-    }
+    useEffect(() => {
+        const displayTask = () => {
+            const fb = firebase.firestore();
+            fb.collection('tasks').where("uid", "==", userID)
+                .get()
+                .then(function (query) {
+                    query.forEach(function (doc) {
+                        // console.log({
+                        //     userID,
+                        //     task: doc.data().description,
+                        //     title: doc.data().title,
+                        //     due: 'sample'
+                        // })
+                        setTask([{ description: doc.data().description, title: doc.data().title, date: doc.data().date }])
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                })
+        }
+        displayTask();
+    })
 
-    displayTask();
+    //console.log(task, 'test');
+
+    /*
+    const renderItem = () => {
+        console.log(item, 'item')
+        return(
+            <Card containerStyle={styles.listCard}>
+                <Card.Title>{item.title}</Card.Title>
+                    <Card.Divider />
+                    <Text style={{ marginBottom: 10 }}>
+                    {item.task}
+                    </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                    {item.due}
+                    </Text>
+            </Card> 
+        )
+    }     
+                    <FlatList
+                    data={task}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                />
+    */
+
+    // const taskCard = ({ item }) => {
+    //     return (
+
+    //     )
+    // }
 
     return (
         <View>
@@ -104,20 +176,26 @@ const List = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginBottom: 50 }}>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>hi</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            hello
-                        </Text>
-                    </Card>
+                    <Text>Flatlist</Text>
+                    <FlatList
+                        data={task}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => (
+                            <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
+                                <Card.Title>{item.title}</Card.Title>
+                                <Card.Divider />
+                                <Text style={{ marginBottom: 10 }}>
+                                    {item.description}
+                                </Text>
+                            </Card>
+                        )}
+                    />
                 </View>
             </ScrollView>
 
             <View style={{}}>
                 <TouchableOpacity
                     style={{
-
                         alignItems: 'center',
                         justifyContent: 'center',
                         width: 83,
@@ -173,7 +251,7 @@ const List = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </View >
     );
 };
 
