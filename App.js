@@ -15,14 +15,14 @@ import List from './src/screens/List';
 import Chat from './src/screens/Chat';
 import Account from './src/screens/Account';
 import Settings from './src/screens/Settings';
-
 import { Provider } from 'react-redux';
-
 import store from './src/reducers/store'
 
 const Tab = createBottomTabNavigator();
-
 const HomeStack = createStackNavigator();
+
+
+
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator initialRouteName='Home' options={{ headerShown: false }}>
@@ -79,7 +79,7 @@ export const Stack = createStackNavigator();
 function App() {
   return (
     <Provider store={store}>
-      <MenuProvider>
+    <MenuProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />

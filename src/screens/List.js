@@ -18,8 +18,10 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 import firebase from '../config/firebase';
+import {createTask} from '../reducers/actions';
+import {connect} from 'react-redux';
 
-const List = ({ navigation }) => {
+const List = ({ navigation, createTask, tasks }) => {
     // console.log(props);
     const { Popover } = renderers;
     const uid = firebase.auth().currentUser;
@@ -27,108 +29,62 @@ const List = ({ navigation }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [date, setDate] = useState('');
-    const [task, setTask] = useState([]);
-
-    const cardInfo = [
-        {
-            id: "1",
-            date: 'sample',
-            description: 'Test desc',
-            title: 'Test title',
-        },
-        {
-            id: "2",
-            date: 'sample',
-            description: 'Test desc',
-            title: 'Test title',
-        },
-        {
-            id: "3",
-            date: 'sample',
-            description: 'Test desc',
-            title: 'Test title',
-        },
-        {
-            id: "4",
-            date: 'sample',
-            description: 'Test desc',
-            title: 'Test title',
-        },
-        {
-            id: "5",
-            date: 'sample',
-            description: 'Test desc',
-            title: 'Test title',
-        },
-    ];
-
-    const addTask = (uid, title, description) => {
-        const fb = firebase.firestore();
-        fb.collection('tasks').add({
-            uid: userID,
-            title: title,
-            description: description,
-            date: 'sample',
-        })
-        setModalVisible(!modalVisible);
-    }
-
-    useEffect(() => {
+    const [task, setTask] = useState('');
+    const [due, setDue] = useState('sample');
+    /**
+       useEffect(() => {
         const displayTask = () => {
             const fb = firebase.firestore();
+            if(
             fb.collection('tasks').where("uid", "==", userID)
+            ){
+                fb.collection('tasks').where("uid", "==", userID)
                 .get()
                 .then(function (query) {
                     query.forEach(function (doc) {
-                        // console.log({
-                        //     userID,
-                        //     task: doc.data().description,
-                        //     title: doc.data().title,
-                        //     due: 'sample'
-                        // })
-                        setTask([{ description: doc.data().description, title: doc.data().title, date: doc.data().date }])
+                        setTask([
+                            { description: doc.data().description,
+                             title: doc.data().title,
+                             date: doc.data().date }
+                            ])
                     });
                 })
                 .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 })
-        }
-        displayTask();
+                displayTask();
+            }else{
+                isSet(
+                    false
+                )
+            }
+
+        }      
     })
-
-    //console.log(task, 'test');
-
-    /*
-    const renderItem = () => {
-        console.log(item, 'item')
-        return(
-            <Card containerStyle={styles.listCard}>
-                <Card.Title>{item.title}</Card.Title>
+     */
+    const TaskList = ({tasks}) => {
+        console.log(tasks, 'test')
+        return(        
+        <FlatList
+            data={tasks}
+            renderItem={({ item }) => (
+                <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
+                    <Card.Title>{item.title}</Card.Title>
                     <Card.Divider />
                     <Text style={{ marginBottom: 10 }}>
-                    {item.task}
+                        {item.task}
                     </Text>
                     <Text style={{ marginBottom: 10 }}>
-                    {item.due}
+                        Due at: {item.due}
                     </Text>
-            </Card> 
+                    <Text style={{ marginBottom: 10 }}>
+                        Created at: {item.createdAt}
+                    </Text>
+                </Card>
+            )}
+        />
         )
     }     
-                    <FlatList
-                    data={task}
-                    keyExtractor={item => item.id}
-                    renderItem={renderItem}
-                />
-    */
-
-    // const taskCard = ({ item }) => {
-    //     return (
-
-    //     )
-    // }
-
     return (
         <View>
             <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
@@ -176,20 +132,7 @@ const List = ({ navigation }) => {
                 </View>
 
                 <View style={{ marginBottom: 50 }}>
-                    <Text>Flatlist</Text>
-                    <FlatList
-                        data={task}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item }) => (
-                            <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-                                <Card.Title>{item.title}</Card.Title>
-                                <Card.Divider />
-                                <Text style={{ marginBottom: 10 }}>
-                                    {item.description}
-                                </Text>
-                            </Card>
-                        )}
-                    />
+                    <TaskList tasks={tasks} />
                 </View>
             </ScrollView>
 
@@ -235,18 +178,25 @@ const List = ({ navigation }) => {
                         <TextInput
                             onChangeText={
                                 (text) => {
-                                    setDescription(text)
+                                    setTask(text)
                                 }
                             }
                         />
                         <Text style={styles.modalText}>Due Date</Text>
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                            onPress={() => {
-                                addTask(userID, title, description)
-                            }}
+                            onPress={() => 
+                                createTask(
+                                    {
+                                        title: title,
+                                        task: task,
+                                        due: due,
+                                        uid: userID
+                                    }
+                                )
+                            }
                         >
-                            <Text style={styles.textStyle}>Save</Text>
+                            <Text style={styles.textStyle}>Add Task</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -454,5 +404,17 @@ const styles = StyleSheet.create({
 
 });
 
+mapStateToProps = (state) => {
+    return {
+        tasks: state.firestore.ordered.tasks
+    }
+        
+}
 
-export default List;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createTask: (task) => dispatch(createTask(task))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);
