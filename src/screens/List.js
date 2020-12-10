@@ -20,8 +20,6 @@ import Constants from 'expo-constants';
 import firebase from '../config/firebase';
 import { createTask } from '../reducers/actions';
 import { connect } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
-
 
 const List = ({ navigation, createTask }) => {
     // console.log(props);
@@ -153,7 +151,7 @@ const List = ({ navigation, createTask }) => {
                         elevation: 5
                     }}
                     onPress={() => {
-                        setModalVisible(true);
+                        navigation.navigate("AddTask")
                     }}
                 >
                     <FAIcon name="plus" size={45} color="white" />
@@ -192,14 +190,6 @@ const List = ({ navigation, createTask }) => {
                                 setHidden(true)
                             }}
                         ></Button>
-                        {hidden ? (
-                            <View>
-                                <DateTimePicker
-                                    placeholder='Completed Date'
-                                    value={date}
-                                />
-                            </View>
-                        ) : null}
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                             onPress={() => {

@@ -12,6 +12,7 @@ import Login2 from './src/screens/Login2';
 import SignUpInfo from './src/screens/SignUpInfo';
 import Home from './src/screens/Home';
 import List from './src/screens/List';
+import AddTask from "./src/screens/AddTask";
 import Chat from './src/screens/Chat';
 import Account from './src/screens/Account';
 import Settings from './src/screens/Settings';
@@ -79,7 +80,7 @@ export const Stack = createStackNavigator();
 function App() {
   return (
     <Provider store={store}>
-    <MenuProvider>
+      <MenuProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
@@ -87,6 +88,7 @@ function App() {
             <Stack.Screen name="SignUpInfo" component={SignUpInfo} options={{ headerShown: false }} />
             <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="AddTask" component={AddTask} />
           </Stack.Navigator>
         </NavigationContainer>
       </MenuProvider>
