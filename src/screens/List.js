@@ -86,33 +86,6 @@ const List = ({ navigation, createTask }) => {
                     })
             }
             displayTask();
-<<<<<<< HEAD
-    }, [])
-
-    const TaskList = (tasks) => {
-        console.log(Object.keys, 'test')
-        return(        
-        <FlatList
-            data={Object.keys(tasks)}
-            renderItem={({ item }) => (
-                <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Divider />
-                    <Text style={{ marginBottom: 10 }}>
-                        {item.task}
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        Due at: {item.due}
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        Created at: {item.createdAt}
-                    </Text>
-                </Card>
-            )}
-        />
-        )
-    }     
-=======
         });
 
         // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -143,7 +116,6 @@ const List = ({ navigation, createTask }) => {
     //     )
     // }
 
->>>>>>> 85ff9d7bda262de8998741ea606c0690d7c5f8b3
     return (
         <View>
             <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
