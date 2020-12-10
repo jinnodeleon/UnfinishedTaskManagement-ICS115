@@ -33,32 +33,6 @@ const List = ({ navigation, createTask }) => {
     const [due, setDue] = useState('sample');
     const [display, setDisplay] = useState([]);
 
-    // loads data on screen mount
-    // useEffect(() => {
-    //     const list = []
-    //     const displayTask = () => {
-    //         const fb = firebase.firestore();
-    //             fb.collection('tasks').where("uid", "==", userID)
-    //             .get()
-    //             .then(function (query) {
-    //                 query.forEach((doc) => 
-    //                     //console.log(doc.data().description, 'useeffect')
-    //                     list.push({ 
-    //                         task: doc.data().task,
-    //                         title: doc.data().title,
-    //                         due: doc.data().due,
-    //                         createdAt: doc.data().createdAt
-    //                         })
-    //                 );
-    //                 setDisplay([...list])
-    //             })
-    //             .catch(function (error) {
-    //                 console.log("Error getting documents: ", error);
-    //             })
-    //         }
-    //         displayTask();
-    // }, [])
-
     // loads data on screen focus
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -91,30 +65,6 @@ const List = ({ navigation, createTask }) => {
         // Return the function to unsubscribe from the event so it gets removed on unmount
         return unsubscribe;
     }, [navigation]);
-
-    // const TaskList = (tasks) => {
-    //     console.log(tasks, 'test')
-    //     return (
-    //         <FlatList
-    //             data={tasks}
-    //             renderItem={({ item }) => (
-    //                 <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-    //                     <Card.Title>{item.title}</Card.Title>
-    //                     <Card.Divider />
-    //                     <Text style={{ marginBottom: 10 }}>
-    //                         {item.task}
-    //                     </Text>
-    //                     <Text style={{ marginBottom: 10 }}>
-    //                         Due at: {item.due}
-    //                     </Text>
-    //                     <Text style={{ marginBottom: 10 }}>
-    //                         Created at: {item.createdAt}
-    //                     </Text>
-    //                 </Card>
-    //             )}
-    //         />
-    //     )
-    // }
 
     return (
         <View>
