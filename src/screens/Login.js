@@ -22,6 +22,7 @@ const Login = ({ navigation, props }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
+    /**
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
@@ -32,7 +33,9 @@ const Login = ({ navigation, props }) => {
             Alert.alert("Email Validation", "Email is Invalid!");
         }
 
-    }
+    }     
+     */
+
 
     return (
 
@@ -55,7 +58,6 @@ const Login = ({ navigation, props }) => {
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate('Login2')
-
                         }}
                         style={styles.buttonStyle}
                     >
@@ -65,20 +67,15 @@ const Login = ({ navigation, props }) => {
             </View>
 
             <View style={styles.buttonBox2} >
-
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate('SignUp')
-
                     }}
                     style={styles.buttonStyle2}
                 >
-
                     <Text style={styles.buttonText2}>
                         SIGN UP
-                        </Text>
-
-
+                    </Text>
                 </TouchableOpacity>
             </View>
 

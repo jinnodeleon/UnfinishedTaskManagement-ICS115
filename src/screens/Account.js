@@ -14,7 +14,7 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
-
+import { auth } from '../config/firebase'
 
 
 
@@ -23,7 +23,9 @@ const Account = ({ navigation }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+ /**
+  * 
+  *     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
             Alert.alert("Email Validation", "Email is Valid!");
@@ -34,6 +36,15 @@ const Account = ({ navigation }) => {
         }
 
     }
+  */   
+
+    const logoutUser = () => {
+        auth().signOut().then(function () {
+            navigation.navigate('Login2')
+        }).catch(function (err) {
+            Alert.alert("Error", err);
+        });
+    }
     return (
 
         <ScrollView stickyHeaderIndices={[5]} invertStickyHeaders style={styles.scrollStyle}>
@@ -42,11 +53,14 @@ const Account = ({ navigation }) => {
                 <Text style={{ fontSize: 45, }}>Account!</Text>
                 <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
             </View >
-
-
-
-
-
+            <TouchableOpacity
+                onPress={logoutUser}
+            >
+                <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
+                    <Text style={{ fontSize: 45, }}>Sign Out</Text>
+                    <Text style={{ color: 'gray', fontSize: 20 }}>Sign out of the application</Text>
+                </View >
+            </TouchableOpacity>
             <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
                 <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
                 <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>

@@ -64,13 +64,12 @@ const cardInfo = [
 const Home = ({ navigation }) => {
     // console.log(props);
 
-
-
     const { Popover } = renderers;
 
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
+    /**
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const verifyEmail = () => {
         if (regex.test({ email }.email)) {
@@ -81,7 +80,9 @@ const Home = ({ navigation }) => {
             Alert.alert("Email Validation", "Email is Invalid!");
         }
 
-    }
+    }     
+     */
+
     return (
         <View>
             <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
@@ -139,7 +140,7 @@ const Home = ({ navigation }) => {
                     <Card.Divider />
                     <Text style={{ marginBottom: 10 }}>
                         The idea with React Native Elements is more about component structure than actual design.
-                </Text>
+                    </Text>
 
                 </Card>
                 <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', marginTop: 35 }}>
@@ -151,50 +152,37 @@ const Home = ({ navigation }) => {
                         <Card.Divider />
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-
+                        </Text>
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                         <Card.Title>HELLO WORLD</Card.Title>
                         <Card.Divider />
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
+                        </Text>
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                         <Card.Title>HELLO WORLD</Card.Title>
                         <Card.Divider />
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
+                        </Text>
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                         <Card.Title>HELLO WORLD</Card.Title>
                         <Card.Divider />
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
+                        </Text>
                     </Card>
                     <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                         <Card.Title>HELLO WORLD</Card.Title>
                         <Card.Divider />
                         <Text style={{ marginBottom: 10 }}>
                             The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
+                        </Text>
                     </Card>
-
-
                 </View>
-
-
-
-
-
             </ScrollView >
             <View style={{}}>
                 <TouchableOpacity
@@ -211,7 +199,7 @@ const Home = ({ navigation }) => {
                         elevation: 5
                     }}
                     onPress={() => {
-                        navigation.navigate('List');
+                        console.log("Home", "FAIcon press")
 
                     }}
                 >
