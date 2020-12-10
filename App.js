@@ -16,6 +16,9 @@ import AddTask from "./src/screens/AddTask";
 import Chat from './src/screens/Chat';
 import Account from './src/screens/Account';
 import Settings from './src/screens/Settings';
+import Contacts from './src/screens/Contacts';
+import AddContacts from './src/screens/AddContacts';
+
 import { Provider } from 'react-redux';
 import store from './src/reducers/store'
 
@@ -89,6 +92,8 @@ function App() {
             <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
             <Stack.Screen name="AddTask" component={AddTask} />
+            <Stack.Screen name="Contacts" component={Contacts} options={{ headerShown: false }} />
+            <Stack.Screen name="AddContacts" component={AddContacts} />
           </Stack.Navigator>
         </NavigationContainer>
       </MenuProvider>

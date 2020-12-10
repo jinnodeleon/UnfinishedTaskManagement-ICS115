@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,30 +13,33 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
-
 import firebase from '../config/firebase'
 
-
-
 const Account = ({ navigation }) => {
-    // console.log(props);
-    const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
-    const [email, setEmail] = useState('');
-    /**
-     * 
-     *     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-       const verifyEmail = () => {
-           if (regex.test({ email }.email)) {
-               Alert.alert("Email Validation", "Email is Valid!");
-               navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
-   
-           } else {
-               Alert.alert("Email Validation", "Email is Invalid!");
-           }
-   
-       }
-     */
+
+    const [details, setDetails] = useState();
+
+    const uid = firebase.auth().currentUser;
+    userEmail = uid.email;
+
+    useEffect(() => {
+
+    const displayTask = () => {
+        const fb = firebase.firestore();
+        fb.collection('users').where("email", "==", userEmail)
+        .get()
+        .then(function (query) {
+            query.forEach((doc) => 
+            console.log(doc.data())
+            )
+        })
+        .catch(function (error) {
+            console.log("Error getting documents: ", error)
+        })
+    }
+    displayTask();
+    //console.log(details);
+    }, [])
 
     const logoutUser = () => {
         firebase.auth().signOut().then(function () {
@@ -48,63 +51,23 @@ const Account = ({ navigation }) => {
     return (
 
         <ScrollView stickyHeaderIndices={[5]} invertStickyHeaders style={styles.scrollStyle}>
-
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
-                <Text style={{ fontSize: 45, }}>Account!</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
             <TouchableOpacity
                 onPress={logoutUser}
             >
                 <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
                     <Text style={{ fontSize: 45, }}>Sign Out</Text>
                     <Text style={{ color: 'gray', fontSize: 20 }}>Sign out of the application</Text>
-                </View >
+                </View>
             </TouchableOpacity>
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={{ fontSize: 45, }}>Bottom Bar</Text>
-                <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
-            </View >
-
-
-
-        </ScrollView >
+            <TouchableOpacity
+                onPress={() => navigation.navigate('AddContacts', {userEmail})}
+            >
+                <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
+                    <Text style={{ fontSize: 45, }}>Sign Out</Text>
+                    <Text style={{ color: 'gray', fontSize: 20 }}>Add Contacts</Text>
+                </View>
+            </TouchableOpacity>
+        </ScrollView>
 
     );
 };

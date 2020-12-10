@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight, Switch } from 'react-native';
+import CheckBox1 from '@react-native-community/checkbox';
+import CheckBox2 from '@react-native-community/checkbox';
 
 // import FAB from 'react-native-fab'
 
@@ -67,6 +69,12 @@ const Settings = ({ navigation }) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+    const [toggleCheckBox1, setToggleCheckBox1] = useState(false);
+    const [toggleCheckBox2, setToggleCheckBox2] = useState(false);
+    const [toggleCheckBox3, setToggleCheckBox3] = useState(false);
+    const [toggleCheckBox4, setToggleCheckBox4] = useState(false);
+
+
     const { Popover } = renderers;
 
     const [fName, setFName] = useState('');
@@ -84,11 +92,11 @@ const Settings = ({ navigation }) => {
         }
 
     }     
-     */
+    */
 
     return (
         <View>
-            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
+            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle} style={{ height: '100%', backgroundColor: 'white' }}>
                 <View style={{ borderBottomColor: 'black', borderBottomWidth: .2, }}>
                     <View style={{ height: 30, backgroundColor: 'white' }}></View>
                     <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around', }}>
@@ -107,7 +115,7 @@ const Settings = ({ navigation }) => {
                 <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
                     <Text style={{ fontSize: 30, }}>Settings</Text>
                 </View >
-                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '85%', justifyContent: 'space-evenly', marginTop: '4%' }}>
+                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '85%', justifyContent: 'space-evenly', marginTop: '4%', marginBottom: '4%' }}>
                     <View style={{ flex: 2, alignItems: 'center', }}>
                         <Text style={{ fontSize: 20 }}>Notify me when tasks are almost due</Text>
                     </View>
@@ -121,7 +129,64 @@ const Settings = ({ navigation }) => {
                             style={{ marginRight: '10%' }}
                         />
                     </View>
+
+
                 </View >
+                <View style={{ width: '85%', borderBottomWidth: 1, borderBottomColor: '#77777', alignSelf: 'center', }}>
+                    <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                            <CheckBox1
+                                disabled={false}
+                                value={toggleCheckBox1}
+                                onValueChange={(newValue) => setToggleCheckBox1(newValue)}
+                            />
+
+                        </View>
+                        <View style={{ flex: 4, justifyContent: 'center', }}>
+                            <Text style={{ fontSize: 18 }}>(n minutes/days/weeks) before due</Text>
+                        </View>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                            <CheckBox2
+                                disabled={false}
+                                value={toggleCheckBox2}
+                                onValueChange={(newValue) => setToggleCheckBox2(newValue)}
+
+                            />
+
+                        </View>
+                        <View style={{ flex: 4, justifyContent: 'center', }}>
+                            <Text style={{ fontSize: 18 }}>(n minutes/days/weeks) before due</Text>
+                        </View>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                            <CheckBox1
+                                disabled={false}
+                                value={toggleCheckBox3}
+                                onValueChange={(newValue) => setToggleCheckBox3(newValue)}
+                            />
+
+                        </View>
+                        <View style={{ flex: 4, justifyContent: 'center', }}>
+                            <Text style={{ fontSize: 18 }}>(n minutes/days/weeks) before due</Text>
+                        </View>
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+                            <CheckBox2
+                                disabled={false}
+                                value={toggleCheckBox4}
+                                onValueChange={(newValue) => setToggleCheckBox4(newValue)}
+                            />
+
+                        </View>
+                        <View style={{ flex: 4, justifyContent: 'center', }}>
+                            <Text style={{ fontSize: 18 }}>(n minutes/days/weeks) before due</Text>
+                        </View>
+                    </View>
+                </View>
 
 
 
