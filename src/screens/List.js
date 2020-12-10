@@ -20,6 +20,8 @@ import Constants from 'expo-constants';
 import firebase from '../config/firebase';
 import { createTask } from '../reducers/actions';
 import { connect } from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 const List = ({ navigation, createTask }) => {
     // console.log(props);
@@ -33,6 +35,8 @@ const List = ({ navigation, createTask }) => {
     const [due, setDue] = useState('sample');
     const [display, setDisplay] = useState([]);
 
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [hidden, setHidden] = useState(false);
     // loads data on screen mount
     // useEffect(() => {
     //     const list = []
@@ -231,6 +235,20 @@ const List = ({ navigation, createTask }) => {
                             }
                         />
                         <Text style={styles.modalText}>Due Date</Text>
+                        <Button
+                            title='Date'
+                            onPress={() => {
+                                setHidden(true)
+                            }}
+                        ></Button>
+                        {hidden ? (
+                            <View>
+                                <DateTimePicker
+                                    placeholder='Completed Date'
+                                    value={date}
+                                />
+                            </View>
+                        ) : null}
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                             onPress={() => {
@@ -257,7 +275,6 @@ const List = ({ navigation, createTask }) => {
     );
 };
 
-
 const test = {
     optionsContainer: {
         width: 125,
@@ -270,10 +287,8 @@ const test = {
 
 };
 
-
 const styles = StyleSheet.create({
     scrollStyle: {
-
         borderColor: 'red',
         backgroundColor: 'white',
         paddingTop: 0,
