@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image , Modal, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight, Switch } from 'react-native';
 
 // import FAB from 'react-native-fab'
 
@@ -17,10 +17,10 @@ import {
     MenuOption,
     MenuTrigger,
     renderers
-  } from 'react-native-popup-menu';
+} from 'react-native-popup-menu';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
-import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import FAIcon from 'react-native-vector-icons/FontAwesome';
 import FIcon from 'react-native-vector-icons/Feather';
 import EIcon from 'react-native-vector-icons/EvilIcons';
 import IIcon from 'react-native-vector-icons/Ionicons';
@@ -59,14 +59,15 @@ const cardInfo = [
 
 
 
- 
+
 
 const Settings = ({ navigation }) => {
     // console.log(props);
-    
-   
-      
-    const {Popover} = renderers;
+
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+    const { Popover } = renderers;
 
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
@@ -85,77 +86,65 @@ const Settings = ({ navigation }) => {
     return (
         <View>
             <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
-                <View style={{ elevation: 5 }}>
+                <View style={{ borderBottomColor: 'black', borderBottomWidth: .2, }}>
                     <View style={{ height: 30, backgroundColor: 'white' }}></View>
-                    <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around' }}>
-                        <TouchableOpacity style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end', }}>
-                            <Image
-                                source={require('../../assets/Logo.png')}
-                                style={{ width: '95%', height: '76%', }}
-                            />
-                        </TouchableOpacity>
-                        
-                        <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
-                        <TouchableOpacity style={{ }}
-                              //  onPress={()=>{}}
+                    <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around', }}>
+                        <TouchableOpacity style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-start', marginLeft: '4%' }}
+                            onPress={() => {
+                                navigation.navigate('Home');
+
+                            }}
                         >
-                            <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
-  <MenuTrigger>
-  <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
-  </MenuTrigger>
- 
-      <MenuOptions customStyles={test}>
-    <MenuOption value={1} text='Replace Task' 
-     customStyles={{optionText: {color: '#FEC507'}}}
-    />
-    <MenuOption value={2} text='Delete Task' 
-    customStyles={{optionText: {color: '#DC5454'}}}
-    />
-  </MenuOptions>
-</Menu>
-                                
-                                
-                               
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ }}
-                                
-                            >
-                                
-                                <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
-                               
-                            </TouchableOpacity>
-                        </View>
+                            <FAIcon name="chevron-left" color="#333333" style={{ fontSize: 30 }}></FAIcon>
+                        </TouchableOpacity>
+
+
                     </View>
                 </View>
                 <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
                     <Text style={{ fontSize: 30, }}>Settings</Text>
                 </View >
-               
-                
+                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '85%', justifyContent: 'space-evenly', marginTop: '4%' }}>
+                    <View style={{ flex: 2, alignItems: 'center', }}>
+                        <Text style={{ fontSize: 20 }}>Notify me when tasks are almost due</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center', }}>
+                        <Switch
+                            trackColor={{ false: "red", true: "green" }}
+                            thumbColor={isEnabled ? "white" : "white"}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                            style={{ marginRight: '10%' }}
+                        />
+                    </View>
+                </View >
+
+
 
 
 
 
 
             </ScrollView >
-            
+
         </View>
     );
 };
 
 
-  const test = {
-      optionsContainer: {
-          width: 125,
-          height: 80,
-          borderRadius: 30,
-          alignItems: 'center',
-          justifyContent: 'center'
-        
-      },
-     
-  };
-  
+const test = {
+    optionsContainer: {
+        width: 125,
+        height: 80,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+
+};
+
 
 const styles = StyleSheet.create({
     scrollStyle: {
@@ -296,6 +285,7 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         alignSelf: 'center'
     },
+
 });
 
 
