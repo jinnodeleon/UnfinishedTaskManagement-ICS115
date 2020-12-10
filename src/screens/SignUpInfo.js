@@ -6,28 +6,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
+import {createAccount} from '../reducers/actions';
+import { connect } from 'react-redux';
 
-
-
-
-const SignUpInfo = ({ navigation }) => {
+const SignUpInfo = ({ navigation, route, createAccount }) => {
     // console.log(props);
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
-    const [email, setEmail] = useState('');
-    /**
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const verifyEmail = () => {
-        if (regex.test({ email }.email)) {
-            Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
+    const [user, setUser] = useState('');
+    const {email, password} = route.params
 
-        } else {
-            Alert.alert("Email Validation", "Email is Invalid!");
-        }
-
-    }     
-     */
+    //console.log(route.params);
 
     return (
 
@@ -51,36 +40,32 @@ const SignUpInfo = ({ navigation }) => {
                 <Text style={{ fontSize: 45, }}>Hello!</Text>
                 <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
             </View >
-            {/*
-            <View style={styles.nameInput}>
-                <View style={styles.nameInputBoxes}>
-
-                    <TextInput placeholder="Firstname" style={styles.nameBox} onChangeText={fName => setFName(fName)} />
-                </View>
-                <View style={styles.nameInputBoxes} >
-
-                    <TextInput placeholder="Lastname" style={styles.nameBox} onChangeText={lName => setLName(lName)} />
-                </View>
-            </View>
-            */}
             < View style={styles.emailInputBox} >
                 <Text style={{ color: "gray" }}>First Name</Text>
-                <TextInput placeholder="First Name"  style={styles.emailBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="First Name"  style={styles.emailBox} onChangeText={text => setFName(text)} />
             </View >
             <View style={styles.passwordInputBox}>
                 <Text style={{ color: "gray" }}>Last Name</Text>
-                <TextInput placeholder="Last Name"  style={styles.passwordBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="Last Name"  style={styles.passwordBox} onChangeText={text => setLName(text)} />
             </View>
             <View style={styles.passwordInputBox}>
                 <Text style={{ color: "gray" }}>Username</Text>
-                <TextInput placeholder="Usernrame"  style={styles.passwordBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="Usernrame"  style={styles.passwordBox} onChangeText={text => setUser(text)} />
             </View>
             <View style={styles.buttonBox} >
                 <LinearGradient colors={['#F7971E', '#FFD200']} start={[0, 1]} end={[1, 0]}>
                     <TouchableOpacity
                         onPress={() => {
+                            
+                                createAccount({
+                                email: email,
+                                password: password,
+                                fName: fName,
+                                lName: lName,
+                                user: user
+                            })
+                             
                             navigation.navigate('Login2')
-
                         }}
                         style={styles.buttonStyle}
                     >
@@ -95,12 +80,6 @@ const SignUpInfo = ({ navigation }) => {
                     <Text style={{ flex: 2.25, }}>Already have an account? </Text>
                     <TouchableOpacity
                         style={{ flex: .75, alignItems: 'center' }}
-                        /*
-                        onPress={() => {
-                            verifyEmail();
-
-                        }}
-                        */
                     >
                         <Text style={{ width: '75%', color: '#F89E1B' }} >Login</Text>
                     </TouchableOpacity>
@@ -233,5 +212,10 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createAccount: (credentials) => dispatch(createAccount(credentials))
+    }
+}
 
-export default SignUpInfo;
+export default connect(null, mapDispatchToProps)(SignUpInfo);

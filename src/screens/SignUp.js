@@ -12,22 +12,24 @@ import Constants from 'expo-constants';
 
 const SignUp = ({ navigation }) => {
     // console.log(props);
-    const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
-    /**
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const verifyEmail = () => {
-        if (regex.test({ email }.email)) {
-            Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
+    const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
 
-        } else {
-            Alert.alert("Email Validation", "Email is Invalid!");
+    const confirmData = () => {
+        console.log(password, confirm)
+        if (password === confirm) {
+            return(
+                navigation.navigate('SignUpInfo', {
+                    email: email,
+                    password: password,
+                })
+            )
         }
-
-    }     
-     */
+        else {
+            console.log('passwords do not match')
+        }
+    }
 
     return (
 
@@ -51,37 +53,22 @@ const SignUp = ({ navigation }) => {
                 <Text style={{ fontSize: 45, }}>Hello!</Text>
                 <Text style={{ color: 'gray', fontSize: 20 }}>Create a new account </Text>
             </View >
-            {/*
-            <View style={styles.nameInput}>
-                <View style={styles.nameInputBoxes}>
-
-                    <TextInput placeholder="Firstname" style={styles.nameBox} onChangeText={fName => setFName(fName)} />
-                </View>
-                <View style={styles.nameInputBoxes} >
-
-                    <TextInput placeholder="Lastname" style={styles.nameBox} onChangeText={lName => setLName(lName)} />
-                </View>
-            </View>
-            */}
             < View style={styles.emailInputBox} >
                 <Text style={{ color: "gray" }}>Email</Text>
                 <TextInput placeholder="Email" textContentType='emailAddress' style={styles.emailBox} onChangeText={email => setEmail(email)} />
             </View >
             <View style={styles.passwordInputBox}>
                 <Text style={{ color: "gray" }}>Password</Text>
-                <TextInput placeholder="Password" secureTextEntry={true} style={styles.passwordBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="Password" secureTextEntry={true} style={styles.passwordBox} onChangeText={text => setPassword(text)} />
             </View>
             <View style={styles.passwordInputBox}>
                 <Text style={{ color: "gray" }}>Confirm Password</Text>
-                <TextInput placeholder="Password" secureTextEntry={true} style={styles.passwordBox} onChangeText={email => setEmail(email)} />
+                <TextInput placeholder="Password" secureTextEntry={true} style={styles.passwordBox} onChangeText={text => setConfirm(text)} />
             </View>
             <View style={styles.buttonBox} >
                 <LinearGradient colors={['#F7971E', '#FFD200']} start={[0, 1]} end={[1, 0]}>
                     <TouchableOpacity
-                        onPress={() => {
-                            navigation.navigate('SignUpInfo')
-
-                        }}
+                        onPress={() => confirmData()}
                         style={styles.buttonStyle}
                     >
                         <Text style={styles.buttonText}>NEXT</Text>
@@ -95,11 +82,6 @@ const SignUp = ({ navigation }) => {
                     <Text style={{ flex: 2.25, }}>Already have an account? </Text>
                     <TouchableOpacity
                         style={{ flex: .75, alignItems: 'center' }}
-                        /**
-                            onPress={() => {
-                            verifyEmail();
-                            }}
-                         */
 
                     >
                         <Text style={{ width: '75%', color: '#F89E1B' }} >Login</Text>

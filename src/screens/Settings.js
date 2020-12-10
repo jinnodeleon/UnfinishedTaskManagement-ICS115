@@ -84,7 +84,7 @@ const Settings = ({ navigation }) => {
         }
 
     }     
-     */
+    */
 
     return (
         <View>
