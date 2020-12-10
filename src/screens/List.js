@@ -59,10 +59,10 @@ const List = ({ navigation, createTask}) => {
     }, [])
 
     const TaskList = (tasks) => {
-        console.log(tasks, 'test')
+        console.log(Object.keys, 'test')
         return(        
         <FlatList
-            data={tasks}
+            data={Object.keys(tasks)}
             renderItem={({ item }) => (
                 <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
                     <Card.Title>{item.title}</Card.Title>
