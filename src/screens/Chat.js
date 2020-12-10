@@ -1,323 +1,90 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, } from 'react-native';
-
-// import FAB from 'react-native-fab'
-
-// import { FloatingAction } from "react-native-floating-action";
-
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-    renderers
-} from 'react-native-popup-menu';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Card } from 'react-native-elements';
-import FAIcon from 'react-native-vector-icons/FontAwesome5';
-import FIcon from 'react-native-vector-icons/Feather';
-import EIcon from 'react-native-vector-icons/EvilIcons';
-import IIcon from 'react-native-vector-icons/Ionicons';
-import { color } from 'react-native-reanimated';
-import { TextInput } from 'react-native-gesture-handler';
-import Constants from 'expo-constants';
-
-
-
-
-
-const Chat = ({ navigation }) => {
-    // console.log(props);
-    const { Popover } = renderers;
-    const [fName, setFName] = useState('');
-    const [lName, setLName] = useState('');
-    const [email, setEmail] = useState('');
-    /**
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const verifyEmail = () => {
-        if (regex.test({ email }.email)) {
-            Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
-
-        } else {
-            Alert.alert("Email Validation", "Email is Invalid!");
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, YellowBox } from 'react-native';
+import firebase from '../config/firebase';
+import AsyncStorage from '@react-native-community/async-storage';
+import { GiftedChat } from 'react-native-gifted-chat';
+import 'firebase/firestore';
+      
+      YellowBox.ignoreWarnings(['Setting a timer for a long period of time'])
+      
+      const db = firebase.firestore()
+      const chatsRef = db.collection('chats')
+      
+      const Chat = ({ navigation }) => {
+        const [user, setUser] = useState(null)
+        const [name, setName] = useState('')
+        const [messages, setMessages] = useState([])
+      
+        useEffect(() => {
+          readUser()
+          const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
+              const messagesFirestore = querySnapshot
+                  .docChanges()
+                  .filter(({ type }) => type === 'added')
+                  .map(({ doc }) => {
+                      const message = doc.data()
+                      return { ...message, createdAt: message.createdAt.toDate() }
+                  })
+                  .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+              appendMessages(messagesFirestore)
+          })
+          return () => unsubscribe()
+      }, [])
+      
+      const appendMessages = useCallback(
+        (messages) => {
+            setMessages((previousMessages) => GiftedChat.append(previousMessages, messages))
+        },
+        [messages]
+      )
+      
+      async function readUser() {
+        const user = await AsyncStorage.getItem('user')
+        if (user) {
+            setUser(JSON.parse(user))
         }
+      }
+      async function handlePress() {
+        const _id = Math.random().toString(36).substring(7)
+        const user = { _id, name }
+        await AsyncStorage.setItem('user', JSON.stringify(user))
+        setUser(user)
+      }
+      async function handleSend(messages) {
+        const writes = messages.map((m) => chatsRef.add(m))
+        await Promise.all(writes)
+      }
+      
+      if (!user) {
+        return (
+            <View style={styles.container}>
+                <TextInput style={styles.input} placeholder="Enter your name" value={name} onChangeText={setName} />
+                <Button onPress={handlePress} title="Enter the chat" />
+            </View>
+        )
+      }
+      return <GiftedChat messages={messages} user={user} onSend={handleSend} />
+      }
 
-    }     
-     */
-
-    return (
-        <View>
-            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
-                <View style={{ elevation: 5 }}>
-                    <View style={{ height: 30, backgroundColor: 'white' }}></View>
-                    <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around' }}>
-                        <TouchableOpacity style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end', }}>
-                            <Image
-                                source={require('../../assets/Logo.png')}
-                                style={{ width: '95%', height: '76%', }}
-                            />
-                        </TouchableOpacity>
-
-                        <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
-                            <TouchableOpacity style={{}}
-                            //  onPress={()=>{}}
-                            >
-                                <Menu renderer={Popover} rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
-                                    <MenuTrigger>
-                                        <FIcon name="more-vertical" style={{ fontSize: 30, }}></FIcon>
-                                    </MenuTrigger>
-
-                                    <MenuOptions customStyles={test}>
-                                        <MenuOption value={1} text='Replace Task'
-                                            customStyles={{ optionText: { color: '#FEC507' } }}
-                                        />
-                                        <MenuOption value={2} text='Delete Task'
-                                            customStyles={{ optionText: { color: '#DC5454' } }}
-                                        />
-                                    </MenuOptions>
-                                </Menu>
-
-
-
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{}}
-
-                            >
-
-                                <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
-
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
-                    <Text style={{ fontSize: 30, }}>Discussions</Text>
-                    <Text style={{ color: 'gray', alignSelf: 'center', fontSize: 28 }}> (n)</Text>
-                </View >
-
-                <View style={{ marginBottom: 50 }}>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-                    <Card containerStyle={styles.listCard}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                </Text>
-
-                    </Card>
-
-
-                </View>
-
-
-
-
-
-            </ScrollView >
-
-        </View>
-    );
-};
-
-
-const test = {
-    optionsContainer: {
-        width: 125,
-        height: 80,
-        borderRadius: 30,
-        alignItems: 'center',
-        justifyContent: 'center'
-
-    },
-
-};
-
-
-const styles = StyleSheet.create({
-    scrollStyle: {
-
-        borderColor: 'red',
-        backgroundColor: 'white',
-        paddingTop: 0,
-        paddingBottom: 0,
-        position: 'relative'
-    },
-    TouchableOpacityStyle: {
-        //Here is the trick
-        position: 'absolute',
-        width: 50,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        right: 30,
-        bottom: 30,
-    },
-    floatingButtonStyle: {
-        resizeMode: 'contain',
-        width: 50,
-        height: 50,
-        //backgroundColor:'black'
-    },
-    logoView: {
-        flex: 2,
-        width: '85%',
-        height: 450,
-
-        alignSelf: 'center',
-
-        marginTop: '-3%',
-        marginBottom: '-18%'
-    },
-    logoPic: {
-        height: '100%',
-        width: '100%',
-
-
-    },
-    nameInput: {
-        flex: 1,
-        height: 80,
-        marginBottom: '5%',
-        flexDirection: 'row',
-
-        borderColor: 'grey',
-        alignSelf: 'stretch'
-    },
-    nameInputBoxes: {
-        flex: 1,
-        marginRight: '3%',
-        marginLeft: '3%',
-        justifyContent: 'center',
-        justifyContent: 'space-evenly',
-
-
-        borderColor: 'orange'
-    },
-    nameBox: {
-        height: 45,
-        backgroundColor: 'black',
-        color: 'white',
-        borderBottomColor: 'white',
-        borderBottomWidth: 2,
-        paddingHorizontal: 10,
-        fontSize: 18
-    },
-    emailInputBox: {
-        flex: 1,
-        width: '70%',
-        height: 80,
-        marginBottom: '5%',
-        justifyContent: 'space-evenly',
-        alignSelf: 'center',
-        borderColor: 'purple',
-        marginBottom: 25
-    },
-    emailBox: {
-        height: 50,
-        backgroundColor: 'white',
-        color: 'black',
-        borderBottomColor: 'black',
-        borderBottomWidth: 2,
-        paddingHorizontal: 10,
-        fontSize: 18,
-    },
-    passwordInputBox: {
-        flex: 1,
-        width: '70%',
-        height: 80,
-        marginBottom: '5%',
-        justifyContent: 'space-evenly',
-        alignSelf: 'center',
-        borderColor: 'purple',
-        marginBottom: 25
-    },
-    passwordBox: {
-        height: 50,
-        backgroundColor: 'white',
-        color: 'black',
-        borderBottomColor: 'black',
-        borderBottomWidth: 2,
-        paddingHorizontal: 10,
-        fontSize: 18,
-    },
-
-    buttonBox: {
-        flex: 1,
-        width: '63%',
-        height: 50,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        marginBottom: '7%',
-        borderColor: 'purple',
-        marginTop: 30
-    },
-    buttonStyle: {
-        backgroundColor: 'white',
-        height: '100%',
-        justifyContent: 'center',
-        backgroundColor: 'transparent'
-
-    },
-    buttonText: {
-        color: 'white',
-        alignSelf: 'center',
-    },
-    backIcon: {
-        flex: 1,
-        height: 80,
-        marginBottom: '5%',
-        flexDirection: 'row',
-
-        width: '95%',
-        borderColor: 'grey',
-        alignSelf: 'center'
-    },
-
-    listCard: {
-        borderRadius: 30,
-        elevation: 4,
-        marginBottom: 15
-    }
-});
+      
+      const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 30,
+        },
+        input: {
+            height: 50,
+            width: '100%',
+            borderWidth: 1,
+            padding: 15,
+            marginBottom: 20,
+            borderColor: 'gray',
+        },
+      })
 
 
 export default Chat;
