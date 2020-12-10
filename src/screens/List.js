@@ -18,10 +18,10 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 import firebase from '../config/firebase';
-import {createTask} from '../reducers/actions';
-import {connect} from 'react-redux';
+import { createTask } from '../reducers/actions';
+import { connect } from 'react-redux';
 
-const List = ({ navigation, createTask}) => {
+const List = ({ navigation, createTask }) => {
     // console.log(props);
     const { Popover } = renderers;
     const uid = firebase.auth().currentUser;
@@ -33,54 +33,39 @@ const List = ({ navigation, createTask}) => {
     const [due, setDue] = useState('sample');
     const [display, setDisplay] = useState([]);
 
+    // loads data on screen focus
     useEffect(() => {
-        const list = []
-        const displayTask = () => {
-            const fb = firebase.firestore();
+        const unsubscribe = navigation.addListener('focus', () => {
+            // The screen is focused
+            // Call any action
+            const list = []
+            const displayTask = () => {
+                const fb = firebase.firestore();
                 fb.collection('tasks').where("uid", "==", userID)
-                .get()
-                .then(function (query) {
-                    query.forEach((doc) => 
-                        //console.log(doc.data().description, 'useeffect')
-                        list.push({ 
-                            task: doc.data().task,
-                            title: doc.data().title,
-                            due: doc.data().due,
-                            createdAt: doc.data().createdAt
+                    .get()
+                    .then(function (query) {
+                        query.forEach((doc) =>
+                            //console.log(doc.data().description, 'useeffect')
+                            list.push({
+                                task: doc.data().task,
+                                title: doc.data().title,
+                                due: doc.data().due,
+                                createdAt: doc.data().createdAt
                             })
-                    );
-                    setDisplay([...list])
-                })
-                .catch(function (error) {
-                    console.log("Error getting documents: ", error);
-                })
+                        );
+                        setDisplay([...list])
+                    })
+                    .catch(function (error) {
+                        console.log("Error getting documents: ", error);
+                    })
             }
             displayTask();
-    }, [])
+        });
 
-    const TaskList = (tasks) => {
-        console.log(tasks, 'test')
-        return(        
-        <FlatList
-            data={tasks}
-            renderItem={({ item }) => (
-                <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Divider />
-                    <Text style={{ marginBottom: 10 }}>
-                        {item.task}
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        Due at: {item.due}
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        Created at: {item.createdAt}
-                    </Text>
-                </Card>
-            )}
-        />
-        )
-    }     
+        // Return the function to unsubscribe from the event so it gets removed on unmount
+        return unsubscribe;
+    }, [navigation]);
+
     return (
         <View>
             <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
@@ -128,7 +113,24 @@ const List = ({ navigation, createTask}) => {
                 </View>
 
                 <View style={{ marginBottom: 50 }}>
-                    <TaskList tasks={display} />
+                    <FlatList
+                        data={display}
+                        renderItem={({ item }) => (
+                            <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
+                                <Card.Title>{item.title}</Card.Title>
+                                <Card.Divider />
+                                <Text style={{ marginBottom: 10 }}>
+                                    {item.task}
+                                </Text>
+                                <Text style={{ marginBottom: 10 }}>
+                                    Due at: {item.due}
+                                </Text>
+                                <Text style={{ marginBottom: 10 }}>
+                                    {/* Created at: {item.createdAt} */}
+                                </Text>
+                            </Card>
+                        )}
+                    />
                 </View>
             </ScrollView>
 
@@ -190,7 +192,7 @@ const List = ({ navigation, createTask}) => {
                                         uid: userID
                                     }
                                 )
-                                
+
                                 setModalVisible(false)
                             }
 

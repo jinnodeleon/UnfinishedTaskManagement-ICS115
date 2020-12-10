@@ -14,7 +14,7 @@ import { color } from 'react-native-reanimated';
 import { TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 
-import { auth } from '../config/firebase'
+import firebase from '../config/firebase'
 
 
 
@@ -23,23 +23,23 @@ const Account = ({ navigation }) => {
     const [fName, setFName] = useState('');
     const [lName, setLName] = useState('');
     const [email, setEmail] = useState('');
- /**
-  * 
-  *     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const verifyEmail = () => {
-        if (regex.test({ email }.email)) {
-            Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
-
-        } else {
-            Alert.alert("Email Validation", "Email is Invalid!");
-        }
-
-    }
-  */   
+    /**
+     * 
+     *     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+       const verifyEmail = () => {
+           if (regex.test({ email }.email)) {
+               Alert.alert("Email Validation", "Email is Valid!");
+               navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
+   
+           } else {
+               Alert.alert("Email Validation", "Email is Invalid!");
+           }
+   
+       }
+     */
 
     const logoutUser = () => {
-        auth().signOut().then(function () {
+        firebase.auth().signOut().then(function () {
             navigation.navigate('Login2')
         }).catch(function (err) {
             Alert.alert("Error", err);
