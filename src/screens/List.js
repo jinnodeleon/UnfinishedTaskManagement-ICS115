@@ -71,7 +71,7 @@ const List = ({ navigation, createTask }) => {
 
     return (
         <View>
-            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
+            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle} style={{ height: '100%', backgroundColor: 'white' }}>
                 <View style={{ elevation: 5 }}>
                     <View style={{ height: 30, backgroundColor: 'white' }}></View>
                     <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around' }}>

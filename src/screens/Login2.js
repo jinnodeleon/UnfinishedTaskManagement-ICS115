@@ -131,7 +131,7 @@ const Login2 = ({ navigation }) => {
           <TouchableOpacity
             style={{ flex: 1, alignItems: 'center' }}
             onPress={() => {
-              verifyEmail();
+              navigation.navigate('SignUp')
 
             }}
 

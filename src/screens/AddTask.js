@@ -107,9 +107,9 @@ const AddTask = ({ navigation, createTask }) => {
                     thumbColor={enabled ? "white" : "white"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch}
-                    value={enabled2}
+                    value={enabled}
                 />
-                {enabled && enabled2 && (
+                {enabled && (
                     <View>
                         <DateTimePicker
                             testID="dateTimePicker"
