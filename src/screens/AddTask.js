@@ -27,27 +27,12 @@ const AddTask = ({ navigation, createTask }) => {
 
     const [title, setTitle] = useState('');
     const [task, setTask] = useState('');
-    const [due, setDue] = useState('sample');
+    const [due, setDue] = useState(new Date());
 
     const [startDate, setStartDate] = useState(new Date())
 
-    //const [date, setDate] = useState(new Date());
-
-    // const onChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate
-    //     setDate(currentDate);
-    //     { currentDate ? setEnabled(false) : null }
-    // };
-
-    // const showMode = (currentMode) => {
-    //     setShow(true);
-    //     setMode(currentMode);
-    // };
-
     const [enabled, setEnabled] = useState(false);
     const toggleSwitch = () => setEnabled(previousState => !previousState);
-
-
 
     const setDate = (event, date) => {
         console.log(date)
@@ -57,15 +42,9 @@ const AddTask = ({ navigation, createTask }) => {
         }
         else {
             console.log('not same')
+            // setDue(date)
         }
-
-
     }
-    // const dateHandler = (event, selectedDate) => {
-    //     console.log(selectedDate)
-    //     setDate(selectedDate)
-    //     { selectedDate ? setEnabled(true) : setEnabled(false) }
-    // }
 
     return (
 
