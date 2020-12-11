@@ -41,6 +41,7 @@ const AddTask = ({ navigation, createTask }) => {
             toggleSwitch()
         }
         else {
+            console.log('not same')
             // setDue(date)
         }
     }
