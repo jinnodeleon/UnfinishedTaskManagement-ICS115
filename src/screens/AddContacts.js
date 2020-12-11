@@ -37,13 +37,8 @@ const AddContacts = ({navigation, route, createContact}) => {
         displayUsers();
 
     }, [])
-    return (
-        <View>
-            <Text>Add Contacts</Text>
-            <FlatList
-                data={display}
-                renderItem={({ item }) => (
-                <TouchableOpacity
+    /**
+                     <TouchableOpacity
                     onPress = {() => {
                       
                         createContact({
@@ -58,6 +53,16 @@ const AddContacts = ({navigation, route, createContact}) => {
                 <Card.Divider />
                 </Card>
                 </TouchableOpacity>
+     */
+    return (
+        <View>
+            <FlatList
+                data={display}
+                renderItem={({ item }) => (
+                <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
+                <Card.Title>{item.user}</Card.Title>
+                <Card.Divider />
+                </Card>
             )}
             />
         </View>
