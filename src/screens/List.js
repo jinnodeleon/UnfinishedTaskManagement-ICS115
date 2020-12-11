@@ -102,7 +102,10 @@ const List = ({ navigation, createTask }) => {
                                 </Menu>
                             </TouchableOpacity>
                             <TouchableOpacity style={{}}
+                                onPress={() => {
+                                    navigation.navigate('Settings');
 
+                                }}
                             >
                                 <EIcon name="gear" style={{ fontSize: 35 }}></EIcon>
                             </TouchableOpacity>

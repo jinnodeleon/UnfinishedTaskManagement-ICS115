@@ -30,7 +30,7 @@ const HomeStack = createStackNavigator();
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator initialRouteName='Home' options={{ headerShown: false }}>
-      <HomeStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+
       <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
     </HomeStack.Navigator>
   );
@@ -91,9 +91,10 @@ function App() {
             <Stack.Screen name="SignUpInfo" component={SignUpInfo} options={{ headerShown: false }} />
             <Stack.Screen name="Login2" component={Login2} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MainStackScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="AddTask" component={AddTask} />
+            <Stack.Screen name="AddTask" component={AddTask} options={{ headerShown: false }} />
             <Stack.Screen name="Contacts" component={Contacts} options={{ headerShown: false }} />
-            <Stack.Screen name="AddContacts" component={AddContacts} />
+            <Stack.Screen name="AddContacts" component={AddContacts} options={{ headerShown: false }} />
+            <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
           </Stack.Navigator>
         </NavigationContainer>
       </MenuProvider>

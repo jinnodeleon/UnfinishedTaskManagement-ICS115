@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
+
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -42,7 +43,10 @@ const AddTask = ({ navigation, createTask }) => {
     // };
 
     const [enabled, setEnabled] = useState(false);
-    const toggleSwitch = () => setEnabled(!enabled);
+    const toggleSwitch = () => setEnabled(previousState => !previousState);
+
+
+
 
     const dateHandler = (event, selectedDate) => {
         console.log(selectedDate)
@@ -75,34 +79,42 @@ const AddTask = ({ navigation, createTask }) => {
 
     return (
 
-        <ScrollView stickyHeaderIndices={[5]} invertStickyHeaders style={styles.scrollStyle}>
+        <ScrollView style={styles.scrollStyle}>
 
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
-                <TextInput
-                    placeholder="Task Name"
-                    onChangeText={(text) => {
-                        setTitle(text)
+            <View style={styles.backIcon}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('List')
+
                     }}
-                />
-            </View >
+                    style={styles.buttonStyle}
+                >
 
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={styles.modalText}>Task Description</Text>
-                <TextInput
-                    placeholder="Description"
-                    onChangeText={
-                        (text) => {
-                            setTask(text)
-                        }
-                    }
-                />
-            </View >
+                    <Icon name="chevron-left" style={{ fontSize: 30 }}></Icon>
+                </TouchableOpacity>
 
-            <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', borderWidth: 2, borderColor: 'orange' }}>
-                <Text style={styles.modalText}>Due Date</Text>
+            </View>
+
+            <View style={{ flex: .5, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, }}>
+                <Text style={{ fontSize: 45, }}>Add Task</Text>
+                <Text style={{ color: 'gray', fontSize: 20 }}>Add a new task! </Text>
+            </View >
+            < View style={styles.emailInputBox} >
+                <Text style={{ color: "gray" }}>Task Name</Text>
+                <TextInput placeholder="Task Name" style={styles.emailBox} oonChangeText={(text) => { setTitle(text) }} />
+            </View >
+            <View style={styles.passwordInputBox}>
+                <Text style={{ color: "gray", marginBottom: 15 }}>Description</Text>
+                <TextInput multiline numberOfLines={5} placeholder="Description" style={styles.descriptionBox} onChangeText={
+                    (text) => {
+                        setTask(text)
+                    }} />
+            </View>
+            <View style={styles.passwordInputBox}>
+                <Text style={{ color: "gray" }}>Due Date</Text>
                 <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={enabled ? "#f5dd4b" : "#f4f3f4"}
+                    trackColor={{ false: "red", true: "green" }}
+                    thumbColor={enabled ? "white" : "white"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch}
                     value={enabled}
@@ -112,47 +124,52 @@ const AddTask = ({ navigation, createTask }) => {
                         <DateTimePicker
                             testID="dateTimePicker"
                             value={new Date()}
-                            // mode={showMode('date')}
+                            //mode={showMode('date')}
                             is24Hour={true}
                             display="default"
                             onChange={dateHandler}
                         />
-                        <TextInput
-                            placeholder="Due Date"
-                        />
                     </View>
                 )}
-            </View >
-
-            <Button
-                title="Add Task"
-                onPress={() => {
-                    try {
-                        createTask(
-                            {
-                                title: title,
-                                task: task,
-                                due: due,
-                                uid: userID
+            </View>
+            <View style={styles.buttonBox} >
+                <LinearGradient colors={['#F7971E', '#FFD200']} start={[0, 1]} end={[1, 0]}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            try {
+                                createTask(
+                                    {
+                                        title: title,
+                                        task: task,
+                                        due: due,
+                                        uid: userID
+                                    }
+                                )
+                                navigation.goBack()
+                            } catch (error) {
+                                Alert.alert(error)
                             }
-                        )
-                        navigation.goBack()
-                    } catch (error) {
-                        Alert.alert(error)
-                    }
 
-                }}
-            />
+                        }}
+                        style={styles.buttonStyle}
+                    >
+                        <Text style={styles.buttonText}>ADD TASK</Text>
+                    </TouchableOpacity>
+                </LinearGradient>
+            </View>
+
+
 
         </ScrollView >
+
+
 
     );
 };
 
 const styles = StyleSheet.create({
     scrollStyle: {
-        borderWidth: 2,
-        borderColor: 'red',
+
         backgroundColor: 'white',
         paddingTop: 0,
         paddingBottom: 0
@@ -230,12 +247,22 @@ const styles = StyleSheet.create({
         borderColor: 'purple',
         marginBottom: 25
     },
+
     passwordBox: {
         height: 50,
         backgroundColor: 'white',
         color: 'black',
         borderBottomColor: 'black',
         borderBottomWidth: 2,
+        paddingHorizontal: 10,
+        fontSize: 18,
+    },
+    descriptionBox: {
+
+        backgroundColor: 'white',
+        color: 'black',
+        borderColor: 'black',
+        borderWidth: 2,
         paddingHorizontal: 10,
         fontSize: 18,
     },
@@ -266,7 +293,7 @@ const styles = StyleSheet.create({
         height: 80,
         marginBottom: '5%',
         flexDirection: 'row',
-
+        marginTop: '5%',
         width: '95%',
         borderColor: 'grey',
         alignSelf: 'center'
