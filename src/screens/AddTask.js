@@ -27,27 +27,12 @@ const AddTask = ({ navigation, createTask }) => {
 
     const [title, setTitle] = useState('');
     const [task, setTask] = useState('');
-    const [due, setDue] = useState('sample');
+    const [due, setDue] = useState(new Date());
 
     const [startDate, setStartDate] = useState(new Date())
 
-    //const [date, setDate] = useState(new Date());
-
-    // const onChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate
-    //     setDate(currentDate);
-    //     { currentDate ? setEnabled(false) : null }
-    // };
-
-    // const showMode = (currentMode) => {
-    //     setShow(true);
-    //     setMode(currentMode);
-    // };
-
     const [enabled, setEnabled] = useState(false);
     const toggleSwitch = () => setEnabled(previousState => !previousState);
-
-
 
     const setDate = (event, date) => {
         console.log(date)
@@ -56,39 +41,9 @@ const AddTask = ({ navigation, createTask }) => {
             toggleSwitch()
         }
         else {
-            console.log('not same')
+            // setDue(date)
         }
-
-
     }
-    // const dateHandler = (event, selectedDate) => {
-    //     console.log(selectedDate)
-    //     setDate(selectedDate)
-    //     { selectedDate ? setEnabled(true) : setEnabled(false) }
-    // }
-
-    /**
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-    const verifyEmail = () => {
-        if (regex.test({ email }.email)) {
-            Alert.alert("Email Validation", "Email is Valid!");
-            navigation.navigate('Info', { fName: { fName }.fName, lName: { lName }.lName, email: { email }.email });
-
-        } else {
-            Alert.alert("Email Validation", "Email is Invalid!");
-        }
-
-    }     
-     */
-
-    // useEffect(() => {
-    //     console.log(title)
-    // }, [title])
-
-    // useEffect(() => {
-    //     console.log(task)
-    // }, [task])
 
     return (
 
