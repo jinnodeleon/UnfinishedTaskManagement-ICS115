@@ -29,7 +29,6 @@ const AddContacts = ({ navigation, route, createContact }) => {
                     console.log("Error getting documents: ",)
                 })
         }
-
         displayUsers();
 
     }, [])

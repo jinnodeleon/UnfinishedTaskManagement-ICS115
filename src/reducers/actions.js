@@ -6,8 +6,6 @@ export const createTask = (task) => {
             const fb = firebase.firestore();
             fb.collection('tasks').add({
                 ...task,
-                authorFirstName: 'TestFirst',
-                authorLastName: 'TestLast',
                 createdAt: new Date()
             }).then(() => {
                 dispatch({ type: 'CREATE_TASK', task: task});
@@ -27,7 +25,8 @@ export const createAccount = (credentials) => {
             credentials.password
         ).then(
             fb.collection('users').add({
-                ...credentials
+                ...credentials,
+                contacts: ''
             })    
         ).then(() => {
             dispatch({ type: 'CREATE_ACCOUNT', credentials: credentials});
@@ -38,13 +37,14 @@ export const createAccount = (credentials) => {
 }
 
 export const createContact = (contactInfo) => {
+    console.log(contactInfo, 'redux')
     return (dispatch) => {
         let err;
         const fb = firebase.firestore();
 
-        fb.collection('users').doc("email", "==", contactInfo.userEmail)
+        fb.collection('users').doc(contactInfo.userDoc)
         .update({
-            contacts: contactInfo.contactEmail
+            contacts: contactInfo.contactUser
         })
         .then(() => {
             dispatch({ type: 'CREATE_CONTACT', contactInfo: contactInfo});
