@@ -6,6 +6,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+    renderers
+} from 'react-native-popup-menu'
+
+import FAIcon from 'react-native-vector-icons/FontAwesome5';
+import FIcon from 'react-native-vector-icons/Feather';
+import EIcon from 'react-native-vector-icons/EvilIcons';
+import IIcon from 'react-native-vector-icons/Ionicons';
+
+
+import { createTask } from '../reducers/actions';
+import { connect } from 'react-redux';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
@@ -16,6 +32,7 @@ import Constants from 'expo-constants';
 import firebase from '../config/firebase'
 
 const Account = ({ navigation }) => {
+    const { Popover } = renderers;
 
     const [details, setDetails] = useState();
 
@@ -24,21 +41,21 @@ const Account = ({ navigation }) => {
 
     useEffect(() => {
 
-    const displayTask = () => {
-        const fb = firebase.firestore();
-        fb.collection('users').where("email", "==", userEmail)
-        .get()
-        .then(function (query) {
-            query.forEach((doc) => 
-            console.log(doc.data())
-            )
-        })
-        .catch(function (error) {
-            console.log("Error getting documents: ", error)
-        })
-    }
-    displayTask();
-    //console.log(details);
+        const displayTask = () => {
+            const fb = firebase.firestore();
+            fb.collection('users').where("email", "==", userEmail)
+                .get()
+                .then(function (query) {
+                    query.forEach((doc) =>
+                        console.log(doc.data())
+                    )
+                })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error)
+                })
+        }
+        displayTask();
+        //console.log(details);
     }, [])
 
     const logoutUser = () => {
@@ -50,24 +67,119 @@ const Account = ({ navigation }) => {
     }
     return (
 
-        <ScrollView stickyHeaderIndices={[5]} invertStickyHeaders style={styles.scrollStyle}>
-            <TouchableOpacity
-                onPress={logoutUser}
-            >
-                <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
-                    <Text style={{ fontSize: 45, }}>Sign Out</Text>
-                    <Text style={{ color: 'gray', fontSize: 20 }}>Sign out of the application</Text>
+        <View>
+            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle} style={{ height: '100%', backgroundColor: 'white' }}>
+                <View style={{ elevation: 5 }}>
+                    <View style={{ height: 30, backgroundColor: 'white' }}></View>
+                    <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around' }}>
+                        <TouchableOpacity style={{ justifyContent: 'center', flex: 1, alignItems: 'flex-end', }}>
+                            <Image
+                                source={require('../../assets/Logo.png')}
+                                style={{ width: '95%', height: '76%', }}
+                            />
+                        </TouchableOpacity>
+
+                        <View style={{ flex: .8, flexDirection: 'row', alignItems: 'center', marginRight: '4%', alignSelf: 'center', justifyContent: 'flex-end' }}>
+                            <TouchableOpacity style={{}}
+                            //  onPress={()=>{}}
+                            >
+
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{}}
+
+                            >
+
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => navigation.navigate('AddContacts', {userEmail})}
-            >
-                <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
-                    <Text style={{ fontSize: 45, }}>Sign Out</Text>
-                    <Text style={{ color: 'gray', fontSize: 20 }}>Add Contacts</Text>
+
+                <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
+                    <Text style={{ fontSize: 30, }}>Profile</Text>
+
                 </View>
-            </TouchableOpacity>
-        </ScrollView>
+                <Card containerStyle={{ width: '80%', alignSelf: 'center', borderRadius: 30, elevation: 4, }}>
+                    <Card.Title style={{ height: 110, width: 110, borderRadius: 100, alignSelf: 'center', justifyContent: 'center', textAlignVertical: 'center', fontSize: 55, color: 'white', backgroundColor: '#C1DAFF' }}>
+                        ME
+                    </Card.Title>
+
+                    <Text style={{ marginBottom: 10 }}>
+                        Name:
+                                </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                        Email:
+                                </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                        Username:
+                                </Text>
+                </Card>
+                <Card containerStyle={{ width: '80%', height: 85, alignSelf: 'center', justifyContent: 'center', borderRadius: 30, elevation: 4, }}>
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                        <View style={{ justifyContent: 'center' }}>
+                            <Text>Change Password</Text>
+                        </View>
+                        <View>
+                            <FAIcon name="chevron-right" color="#FBB040" style={{ fontSize: 30 }} />
+                        </View>
+                    </View>
+                </Card>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('AddContacts', { userEmail })}
+                >
+                    <Card containerStyle={{ width: '80%', height: 85, alignSelf: 'center', justifyContent: 'center', borderRadius: 30, elevation: 4, }}>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ justifyContent: 'center' }}>
+                                <Text>View Contacts</Text>
+                            </View>
+                            <View>
+                                <FAIcon name="chevron-right" color="#FBB040" style={{ fontSize: 30 }} />
+                            </View>
+                        </View>
+                    </Card>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={logoutUser}
+                >
+                    <Card containerStyle={{ width: '80%', height: 85, alignSelf: 'center', justifyContent: 'center', borderRadius: 30, elevation: 4, marginBottom: 20 }}>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ justifyContent: 'center' }}>
+                                <Text>Logout</Text>
+                            </View>
+                            <View>
+                                <FAIcon name="chevron-right" color="#FBB040" style={{ fontSize: 30 }} />
+                            </View>
+                        </View>
+                    </Card>
+                </TouchableOpacity>
+
+            </ScrollView>
+
+
+
+
+        </View >
+
+        // <ScrollView stickyHeaderIndices={[5]} invertStickyHeaders style={styles.scrollStyle}>
+        //     <TouchableOpacity
+        //         onPress={logoutUser}
+        //     >
+        //         <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
+        //             <Text style={{ fontSize: 45, }}>Sign Out</Text>
+        //             <Text style={{ color: 'gray', fontSize: 20 }}>Sign out of the application</Text>
+        //         </View>
+        //     </TouchableOpacity>
+        //     <TouchableOpacity
+        //         onPress={() => navigation.navigate('AddContacts', {userEmail})}
+        //     >
+        //         <View style={{ flex: 1, alignSelf: 'center', width: '85%', alignItems: 'flex-start', marginBottom: 60, borderWidth: 2, borderColor: 'orange', marginTop: 35 }}>
+        //             <Text style={{ fontSize: 45, }}>Sign Out</Text>
+        //             <Text style={{ color: 'gray', fontSize: 20 }}>Add Contacts</Text>
+        //         </View>
+        //     </TouchableOpacity>
+        // </ScrollView>
 
     );
 };
