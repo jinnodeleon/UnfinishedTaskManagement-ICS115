@@ -85,7 +85,7 @@ const Home = ({ navigation }) => {
 
     return (
         <View>
-            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle}>
+            <ScrollView stickyHeaderIndices={[0]} style={styles.scrollStyle} style={{ height: '100%', backgroundColor: 'white' }}>
                 <View style={{ elevation: 5 }}>
                     <View style={{ height: 30, backgroundColor: 'white' }}></View>
                     <View style={{ alignSelf: 'center', height: 50, flexDirection: 'row', backgroundColor: 'white', alignContent: 'space-around' }}>
@@ -161,27 +161,8 @@ const Home = ({ navigation }) => {
                             The idea with React Native Elements is more about component structure than actual design.
                         </Text>
                     </Card>
-                    <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                        </Text>
-                    </Card>
-                    <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                        </Text>
-                    </Card>
-                    <Card containerStyle={{ borderRadius: 30, elevation: 4, }}>
-                        <Card.Title>HELLO WORLD</Card.Title>
-                        <Card.Divider />
-                        <Text style={{ marginBottom: 10 }}>
-                            The idea with React Native Elements is more about component structure than actual design.
-                        </Text>
-                    </Card>
+
+
                 </View>
             </ScrollView >
             <View style={{}}>
@@ -199,8 +180,7 @@ const Home = ({ navigation }) => {
                         elevation: 5
                     }}
                     onPress={() => {
-                        console.log("Home", "FAIcon press")
-
+                        navigation.navigate("AddTask")
                     }}
                 >
                     <FAIcon name="plus" size={45} color="white" />
