@@ -42,8 +42,9 @@ export const createContact = (contactInfo) => {
         let err;
         const fb = firebase.firestore();
 
-        fb.collection('users').doc("email", "==", contactInfo.userEmail)
-        .update({
+        fb.collection('users').where("email", "==", contactInfo.userEmail)
+        .get()
+        .add({
             contacts: contactInfo.contactEmail
         })
         .then(() => {

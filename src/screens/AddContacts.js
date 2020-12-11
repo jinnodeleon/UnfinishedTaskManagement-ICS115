@@ -19,10 +19,12 @@ const AddContacts = ({navigation, route, createContact}) => {
             .get()
             .then(function (query) {
                 query.forEach((doc) => 
-                    //console.log(doc.data())
+                    //console.log(doc)
+
                     list.push(
                         doc.data()
-                    )
+                    )                     
+
                 );
                 setDisplay([...list])
             }).catch(function (error) {
@@ -53,6 +55,7 @@ const AddContacts = ({navigation, route, createContact}) => {
                 <Card.Title>{item.user}</Card.Title>
                 <Card.Divider />
                 </Card>
+                <Text>{item.id}</Text>
                 </TouchableOpacity>
             )}
             />
