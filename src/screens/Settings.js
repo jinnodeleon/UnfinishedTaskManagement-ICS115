@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { StyleSheet, Text, View, Button, Keyboard, Alert, TouchableOpacity, ScrollView, Image, Modal, TouchableHighlight, Switch } from 'react-native';
-import CheckBox1 from '@react-native-community/checkbox';
-import CheckBox2 from '@react-native-community/checkbox';
+import ScrollPicker from 'react-native-wheel-scroll-picker';
+import CheckBox from '@react-native-community/checkbox';
+import styled from 'styled-components';
+
 
 // import FAB from 'react-native-fab'
 
@@ -112,7 +114,7 @@ const Settings = ({ navigation }) => {
 
                     </View>
                 </View>
-                <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', }}>
+                <View style={{ flex: 1, alignSelf: 'center', width: '90%', alignItems: 'flex-start', marginTop: 30, marginBottom: 20 }}>
                     <Text style={{ fontSize: 30, }}>Settings</Text>
                 </View >
                 <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', width: '85%', justifyContent: 'space-evenly', marginTop: '4%', marginBottom: '4%' }}>
@@ -132,10 +134,10 @@ const Settings = ({ navigation }) => {
 
 
                 </View >
-                <View style={{ width: '85%', borderBottomWidth: 1, borderBottomColor: '#77777', alignSelf: 'center', }}>
+                <View style={{ width: '85%', borderBottomWidth: 1, borderBottomColor: '#77777', alignSelf: 'center', marginBottom: 20 }}>
                     <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-                            <CheckBox1
+                            <CheckBox
                                 disabled={false}
                                 value={toggleCheckBox1}
                                 onValueChange={(newValue) => setToggleCheckBox1(newValue)}
@@ -148,7 +150,7 @@ const Settings = ({ navigation }) => {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-                            <CheckBox2
+                            <CheckBox
                                 disabled={false}
                                 value={toggleCheckBox2}
                                 onValueChange={(newValue) => setToggleCheckBox2(newValue)}
@@ -162,7 +164,7 @@ const Settings = ({ navigation }) => {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-                            <CheckBox1
+                            <CheckBox
                                 disabled={false}
                                 value={toggleCheckBox3}
                                 onValueChange={(newValue) => setToggleCheckBox3(newValue)}
@@ -175,7 +177,7 @@ const Settings = ({ navigation }) => {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
                         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-                            <CheckBox2
+                            <CheckBox
                                 disabled={false}
                                 value={toggleCheckBox4}
                                 onValueChange={(newValue) => setToggleCheckBox4(newValue)}
@@ -187,7 +189,81 @@ const Settings = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
+                <View style={{ flex: 1, flexDirection: 'row', width: '85%', alignSelf: 'center', justifyContent: 'space-evenly', marginBottom: 15 }}>
+                    <View style={{ flex: 1, }}>
+                        <ScrollPicker
 
+                            dataSource={[
+                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                                21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                                31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                                41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                                51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                            ]}
+                            selectedIndex={1}
+                            renderItem={(data, index, isSelected) => {
+                                //
+                            }}
+                            onValueChange={(data, selectedIndex) => {
+                                //
+                            }}
+                            wrapperHeight={110}
+                            wrapperWidth={50}
+                            wrapperBackground={'#FFFFFF'}
+                            itemHeight={40}
+                            highlightColor={'#d8d8d8'}
+                            highlightBorderWidth={1}
+                            activeItemColor={'#222121'}
+                            itemColor={'#B4B4B4'}
+                        />
+                    </View>
+
+                    <View style={{ flex: 1, }}>
+                        <ScrollPicker
+
+                            dataSource={[
+                                'Minutes',
+                                'Days',
+                                'Weeks',
+
+                            ]}
+                            selectedIndex={1}
+                            renderItem={(data, index, isSelected) => {
+                                //
+                            }}
+                            onValueChange={(data, selectedIndex) => {
+                                //
+                            }}
+                            wrapperHeight={110}
+                            wrapperWidth={85}
+                            wrapperBackground={'#FFFFFF'}
+                            itemHeight={40}
+                            highlightColor={'#d8d8d8'}
+                            highlightBorderWidth={1}
+                            activeItemColor={'#222121'}
+                            itemColor={'#B4B4B4'}
+
+
+                        />
+                    </View>
+                    <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 22 }}>Before Due</Text>
+                    </View>
+
+                </View>
+                <View style={styles.buttonBox} >
+                    <LinearGradient colors={['#F7971E', '#FFD200']} start={[0, 1]} end={[1, 0]}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate('Login2')
+                            }}
+                            style={styles.buttonStyle}
+                        >
+                            <Text style={styles.buttonText}>ADD</Text>
+                        </TouchableOpacity>
+                    </LinearGradient>
+                </View>
 
 
 
@@ -324,13 +400,13 @@ const styles = StyleSheet.create({
 
     buttonBox: {
         flex: 1,
-        width: '63%',
+        width: '20%',
         height: 50,
-        alignSelf: 'center',
+        alignSelf: 'flex-end',
         justifyContent: 'center',
         marginBottom: '7%',
         borderColor: 'purple',
-        marginTop: 30
+        marginRight: '8%'
     },
     buttonStyle: {
         backgroundColor: 'white',
