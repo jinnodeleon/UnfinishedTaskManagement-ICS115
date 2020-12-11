@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 const AddContacts = ({navigation, route, createContact}) => {
 
     const [display, setDisplay] = useState([]);
-    const {userEmail} = route.params;
+    const {userDoc} = route.params;
 
     useEffect(() => {
         const list = [];
@@ -22,7 +22,10 @@ const AddContacts = ({navigation, route, createContact}) => {
                     //console.log(doc)
 
                     list.push(
-                        doc.data()
+                        {
+                            user: doc.data().user,
+                            uid: doc.id
+                        }
                     )                     
 
                 );
@@ -31,7 +34,6 @@ const AddContacts = ({navigation, route, createContact}) => {
                 console.log("Error getting documents: ", )
             })
         }
-
         displayUsers();
 
     }, [])
@@ -45,8 +47,8 @@ const AddContacts = ({navigation, route, createContact}) => {
                     onPress = {() => {
                       
                              createContact({
-                            userEmail: userEmail,
-                            contactEmail: item.email
+                            userDoc: userDoc,
+                            contactUser: item.user
                         })
                          
                     }}
@@ -55,7 +57,6 @@ const AddContacts = ({navigation, route, createContact}) => {
                 <Card.Title>{item.user}</Card.Title>
                 <Card.Divider />
                 </Card>
-                <Text>{item.id}</Text>
                 </TouchableOpacity>
             )}
             />

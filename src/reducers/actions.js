@@ -27,7 +27,8 @@ export const createAccount = (credentials) => {
             credentials.password
         ).then(
             fb.collection('users').add({
-                ...credentials
+                ...credentials,
+                contacts: ''
             })    
         ).then(() => {
             dispatch({ type: 'CREATE_ACCOUNT', credentials: credentials});
@@ -38,14 +39,14 @@ export const createAccount = (credentials) => {
 }
 
 export const createContact = (contactInfo) => {
+    console.log(contactInfo, 'redux')
     return (dispatch) => {
         let err;
         const fb = firebase.firestore();
 
-        fb.collection('users').where("email", "==", contactInfo.userEmail)
-        .get()
-        .add({
-            contacts: contactInfo.contactEmail
+        fb.collection('users').doc(contactInfo.userDoc)
+        .update({
+            contacts: contactInfo.contactUser
         })
         .then(() => {
             dispatch({ type: 'CREATE_CONTACT', contactInfo: contactInfo});

@@ -27,19 +27,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { color } from 'react-native-reanimated';
-import { TextInput } from 'react-native-gesture-handler';
+import { FlatList, TextInput } from 'react-native-gesture-handler';
 import Constants from 'expo-constants';
 import firebase from '../config/firebase'
 
 const Account = ({ navigation }) => {
     const { Popover } = renderers;
 
-    const [details, setDetails] = useState();
+    const [details, setDetails] = useState([]);
+    const [docID, setDocID] = useState([]);
 
     const uid = firebase.auth().currentUser;
     userEmail = uid.email;
 
     useEffect(() => {
+        const list = [];
+        const list2 = [];
 
         const displayTask = () => {
             const fb = firebase.firestore();
@@ -47,15 +50,34 @@ const Account = ({ navigation }) => {
                 .get()
                 .then(function (query) {
                     query.forEach((doc) =>
-                        console.log(doc.data())
+                        list.push(doc.data())
                     )
+                    setDetails([...list])
                 })
                 .catch(function (error) {
                     console.log("Error getting documents: ", error)
                 })
         }
         displayTask();
-        //console.log(details);
+
+        const displayDocID = () => {
+            const fb = firebase.firestore();
+            fb.collection('users').where("email", "==", userEmail)
+                .get()
+                .then(function (query) {
+                    query.forEach((doc) =>
+                        list2.push(
+                            doc.id
+                        )
+                    )
+                    setDocID([...list2])
+                })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error)
+                })
+        }
+        displayDocID();
+        console.log(docID, 'idzz');
     }, [])
 
     const logoutUser = () => {
@@ -98,21 +120,28 @@ const Account = ({ navigation }) => {
                     <Text style={{ fontSize: 30, }}>Profile</Text>
 
                 </View>
-                <Card containerStyle={{ width: '80%', alignSelf: 'center', borderRadius: 30, elevation: 4, }}>
+
+                <FlatList 
+                    data={details}
+                    renderItem={({ item }) => (
+                        <Card containerStyle={{ width: '80%', alignSelf: 'center', borderRadius: 30, elevation: 4, }}>
                     <Card.Title style={{ height: 110, width: 110, borderRadius: 100, alignSelf: 'center', justifyContent: 'center', textAlignVertical: 'center', fontSize: 55, color: 'white', backgroundColor: '#C1DAFF' }}>
                         ME
                     </Card.Title>
 
                     <Text style={{ marginBottom: 10 }}>
-                        Name:
+                        Name: {item.fName} {item.lName}
                                 </Text>
                     <Text style={{ marginBottom: 10 }}>
-                        Email:
+                        Email: {item.email}
                                 </Text>
                     <Text style={{ marginBottom: 10 }}>
-                        Username:
+                        Username: {item.user}
                                 </Text>
                 </Card>
+                    )
+                    }
+                />
                 <Card containerStyle={{ width: '80%', height: 85, alignSelf: 'center', justifyContent: 'center', borderRadius: 30, elevation: 4, }}>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
@@ -125,7 +154,7 @@ const Account = ({ navigation }) => {
                     </View>
                 </Card>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('AddContacts', { userEmail })}
+                    onPress={() => navigation.navigate('AddContacts', { userDoc: docID[0] })}
                 >
                     <Card containerStyle={{ width: '80%', height: 85, alignSelf: 'center', justifyContent: 'center', borderRadius: 30, elevation: 4, }}>
 
