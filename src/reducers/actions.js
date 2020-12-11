@@ -6,8 +6,6 @@ export const createTask = (task) => {
             const fb = firebase.firestore();
             fb.collection('tasks').add({
                 ...task,
-                authorFirstName: 'TestFirst',
-                authorLastName: 'TestLast',
                 createdAt: new Date()
             }).then(() => {
                 dispatch({ type: 'CREATE_TASK', task: task});

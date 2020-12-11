@@ -46,7 +46,7 @@ const AddContacts = ({navigation, route, createContact}) => {
                 <TouchableOpacity
                     onPress = {() => {
                       
-                             createContact({
+                        createContact({
                             userDoc: userDoc,
                             contactUser: item.user
                         })
