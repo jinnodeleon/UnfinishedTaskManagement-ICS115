@@ -29,7 +29,9 @@ const AddTask = ({ navigation, createTask }) => {
     const [task, setTask] = useState('');
     const [due, setDue] = useState('sample');
 
-    const [date, setDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date())
+
+    //const [date, setDate] = useState(new Date());
 
     // const onChange = (event, selectedDate) => {
     //     const currentDate = selectedDate
@@ -47,12 +49,23 @@ const AddTask = ({ navigation, createTask }) => {
 
 
 
+    const setDate = (event, date) => {
+        console.log(date)
+        console.log(startDate)
+        if (date === undefined) {
+            toggleSwitch()
+        }
+        else {
+            console.log('not same')
+        }
 
-    const dateHandler = (event, selectedDate) => {
-        console.log(selectedDate)
-        setDate(selectedDate)
-        { selectedDate ? setEnabled(true) : setEnabled(false) }
+
     }
+    // const dateHandler = (event, selectedDate) => {
+    //     console.log(selectedDate)
+    //     setDate(selectedDate)
+    //     { selectedDate ? setEnabled(true) : setEnabled(false) }
+    // }
 
     /**
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -123,11 +136,11 @@ const AddTask = ({ navigation, createTask }) => {
                     <View>
                         <DateTimePicker
                             testID="dateTimePicker"
-                            value={new Date()}
+                            value={setStartDate}
                             //mode={showMode('date')}
                             is24Hour={true}
                             display="default"
-                            onChange={dateHandler}
+                            onChange={setDate}
                         />
                     </View>
                 )}

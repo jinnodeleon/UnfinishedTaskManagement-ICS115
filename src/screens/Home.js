@@ -199,8 +199,7 @@ const Home = ({ navigation }) => {
                         elevation: 5
                     }}
                     onPress={() => {
-                        console.log("Home", "FAIcon press")
-
+                        navigation.navigate("AddTask")
                     }}
                 >
                     <FAIcon name="plus" size={45} color="white" />

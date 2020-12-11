@@ -49,7 +49,7 @@ const Login = ({ navigation, props }) => {
             </View>
 
             <View style={{ flex: .5, alignSelf: 'center', width: '80%', alignItems: 'center', marginBottom: '10%' }}>
-                <Text style={{ fontSize: 15, }} > consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla</Text>
+                <Text style={{ fontSize: 15, textAlign: 'center' }} > Make it easier for yourslelf to manage tasks and itime by using our app!</Text>
             </View>
 
 

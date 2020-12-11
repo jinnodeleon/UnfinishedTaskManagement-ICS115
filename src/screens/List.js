@@ -128,9 +128,9 @@ const List = ({ navigation, createTask }) => {
                                 <Text style={{ marginBottom: 10 }}>
                                     {item.task}
                                 </Text>
-                                <Text style={{ marginBottom: 10 }}>
+                                {/* <Text style={{ marginBottom: 10 }}>
                                     Due at: {item.due}
-                                </Text>
+                                </Text> */}
                                 <Text style={{ marginBottom: 10 }}>
                                     {/* Created at: {item.createdAt} */}
                                 </Text>
