@@ -9,7 +9,7 @@ import 'firebase/firestore';
       YellowBox.ignoreWarnings(['Setting a timer for a long period of time'])
       
       const db = firebase.firestore()
-      const chatsRef = db.collection('tasks').doc('j85Sd6RawJ1JY77NDSFB').collection('chats');
+      const chatsRef = db.collection('chats');
       //const uid = firebase.auth().currentUser.uid;
       
       const Chat = ({ navigation }) => {
