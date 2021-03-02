@@ -27,24 +27,39 @@ const AddTask = ({ navigation, createTask }) => {
 
     const [title, setTitle] = useState('');
     const [task, setTask] = useState('');
-    const [due, setDue] = useState(new Date());
+    const [due, setDue] = useState('');
+
+
+    const [timePickerVisible, setTimePickerVisible] = useState(false);
+    const timeToggle = () => setTimePickerVisible(previousState => !previousState);
+    const [datePickerVisible, setDatePickerVisible] = useState(false);
+    const dateToggle = () => setDatePickerVisible(previousState => !previousState);
+    const [dateTimePickerVisible, setDateTimePickerVisible] = useState(false);
+    const datetimeToggle = () => setDateTimePickerVisible(previousState => !previousState);
+
+    const confirmDate = () => setDue(previousState => previousState.toString());
 
     const [startDate, setStartDate] = useState(new Date())
 
     const [enabled, setEnabled] = useState(false);
     const toggleSwitch = () => setEnabled(previousState => !previousState);
 
-    const setDate = (event, date) => {
-        console.log(date)
-        console.log(startDate)
-        if (date === undefined) {
-            toggleSwitch()
-        }
-        else {
-            console.log('not same')
-            // setDue(date)
-        }
-    }
+    // const setDate = (event, date) => {
+    //     let x = date.toString()
+    //     console.log(date)
+    //     console.log(startDate)
+    //     if (date === undefined) {
+    //         toggleSwitch()
+    //     }
+    //     else {
+    //         console.log('not same')
+    //         setDue(x)
+    //         console.log(due)
+    //         hide
+
+
+    //     }
+    // }
 
     return (
 
@@ -70,7 +85,7 @@ const AddTask = ({ navigation, createTask }) => {
             </View >
             < View style={styles.emailInputBox} >
                 <Text style={{ color: "gray" }}>Task Name</Text>
-                <TextInput placeholder="Task Name" style={styles.emailBox} oonChangeText={(text) => { setTitle(text) }} />
+                <TextInput placeholder="Task Name" style={styles.emailBox} onChangeText={(text) => { setTitle(text) }} />
             </View >
             <View style={styles.passwordInputBox}>
                 <Text style={{ color: "gray", marginBottom: 15 }}>Description</Text>
@@ -85,21 +100,41 @@ const AddTask = ({ navigation, createTask }) => {
                     trackColor={{ false: "red", true: "green" }}
                     thumbColor={enabled ? "white" : "white"}
                     ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
+                    onValueChange={(enabled) => { toggleSwitch(); dateToggle() }}
+
                     value={enabled}
+
                 />
-                {enabled && (
+                {datePickerVisible &&
+                    (<DateTimePicker
+                        mode={"date"}
+                        display='calendar' // 'default', 'spinner', 'calendar', 'clock' // Android Only 
+                        value={setStartDate}
+
+                        onChange={(event, date) => {
+                            if (date === !undefined) {
+                                console.log('no change')
+                            }
+                            else {
+
+                                console.log('has date')
+                            }
+                        }}
+                    />)}
+                {/* {enabled && (
                     <View>
                         <DateTimePicker
                             testID="dateTimePicker"
                             value={setStartDate}
-                            //mode={showMode('date')}
+                            mode="date"
+                            display="clock"
                             is24Hour={true}
                             display="default"
                             onChange={setDate}
+
                         />
                     </View>
-                )}
+                )} */}
             </View>
             <View style={styles.buttonBox} >
                 <LinearGradient colors={['#F7971E', '#FFD200']} start={[0, 1]} end={[1, 0]}>
